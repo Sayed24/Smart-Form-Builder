@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Smart Form Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Smart Form Builder</h1>
+  <button id="saveForm">Save Form</button>
+</header>
+
+<div class="app">
+  <!-- LEFT PANEL -->
+  <aside class="elements">
+    <h3>Form Elements</h3>
+    <div class="element" draggable="true" data-type="text">Text Input</div>
+    <div class="element" draggable="true" data-type="email">Email</div>
+    <div class="element" draggable="true" data-type="textarea">Textarea</div>
+    <div class="element" draggable="true" data-type="select">Dropdown</div>
+    <div class="element" draggable="true" data-type="checkbox">Checkbox</div>
+    <div class="element" draggable="true" data-type="radio">Radio</div>
+    <div class="element" draggable="true" data-type="date">Date</div>
+  </aside>
+
+  <!-- BUILDER -->
+  <main class="builder">
+    <h3>Build Your Form</h3>
+    <div id="formCanvas" class="canvas">
+      <p class="empty">Drag elements here</p>
+    </div>
+  </main>
+
+  <!-- SETTINGS -->
+  <aside class="settings">
+    <h3>Field Settings</h3>
+    <div id="settingsPanel">
+      <p>Select a field</p>
+    </div>
+  </aside>
+</div>
+
+<script src="js/builder.js"></script>
+</body>
+</html>
