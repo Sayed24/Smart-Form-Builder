@@ -4,69 +4,95 @@ const settingsPanel = document.getElementById("settingsPanel");
 
 let fields = [];
 let selectedFieldId = null;
+let previewMode = false;
 
-// Drag start
+/* Drag */
 elements.forEach(el => {
   el.addEventListener("dragstart", e => {
     e.dataTransfer.setData("type", el.dataset.type);
   });
 });
 
-// Allow drop
 canvas.addEventListener("dragover", e => e.preventDefault());
-
 canvas.addEventListener("drop", e => {
   e.preventDefault();
   const type = e.dataTransfer.getData("type");
   addField(type);
 });
 
+/* Field Model */
 function addField(type) {
-  const id = Date.now();
-  const field = {
-    id,
+  fields.push({
+    id: Date.now(),
     type,
     label: `${type} field`,
-    required: false
-  };
-  fields.push(field);
+    required: false,
+    showIf: null
+  });
   render();
 }
 
+/* Render */
 function render() {
   canvas.innerHTML = "";
-  if (fields.length === 0) {
+  if (!fields.length) {
     canvas.innerHTML = `<p class="empty">Drag elements here</p>`;
     return;
   }
 
   fields.forEach(field => {
+    if (field.showIf && !evaluateLogic(field.showIf)) return;
+
     const div = document.createElement("div");
     div.className = "field";
     if (field.id === selectedFieldId) div.classList.add("selected");
 
     div.innerHTML = `
       <strong>${field.label}</strong>
-      <div>${field.type}</div>
+      <div>${renderInput(field)}</div>
     `;
 
-    div.onclick = () => selectField(field.id);
+    if (!previewMode) {
+      div.onclick = () => selectField(field.id);
+    }
+
     canvas.appendChild(div);
   });
 }
 
+/* Inputs */
+function renderInput(field) {
+  switch (field.type) {
+    case "textarea": return `<textarea></textarea>`;
+    case "email": return `<input type="email">`;
+    case "date": return `<input type="date">`;
+    default: return `<input type="text">`;
+  }
+}
+
+/* Select Field */
 function selectField(id) {
   selectedFieldId = id;
   const field = fields.find(f => f.id === id);
 
   settingsPanel.innerHTML = `
     <label>Label</label>
-    <input value="${field.label}" id="labelInput">
+    <input id="labelInput" value="${field.label}">
 
     <label>
       <input type="checkbox" id="requiredInput" ${field.required ? "checked" : ""}>
       Required
     </label>
+
+    <div class="logic">
+      <strong>Conditional Logic</strong>
+      <select id="logicField">
+        <option value="">None</option>
+        ${fields.filter(f => f.id !== field.id)
+          .map(f => `<option value="${f.id}">${f.label}</option>`)}
+      </select>
+      <input id="logicValue" placeholder="Value">
+    </div>
   `;
 
   document.getElementById("labelInput").oninput = e => {
@@ -78,16 +104,50 @@ function selectField(id) {
     field.required = e.target.checked;
   };
 
+  document.getElementById("logicField").onchange = e => {
+    field.showIf = e.target.value
+      ? { fieldId: +e.target.value, value: "" }
+      : null;
+  };
+
+  document.getElementById("logicValue").oninput = e => {
+    if (field.showIf) field.showIf.value = e.target.value;
+  };
+
   render();
 }
 
-// Save
-document.getElementById("saveForm").onclick = () => {
-  localStorage.setItem("smartForm", JSON.stringify(fields));
-  alert("Form saved successfully!");
+/* Logic Evaluation */
+function evaluateLogic(condition) {
+  const target = document.querySelector(
+    `[data-field="${condition.fieldId}"] input`
+  );
+  return target && target.value === condition.value;
+}
+
+/* Preview */
+document.getElementById("previewToggle").onclick = () => {
+  previewMode = !previewMode;
+  document.body.classList.toggle("preview");
+  render();
 };
 
-// Load
+/* Theme */
+document.getElementById("themeToggle").onclick = () => {
+  document.body.classList.toggle("dark");
+};
+
+document.getElementById("primaryColor").oninput = e => {
+  document.documentElement.style.setProperty("--primary", e.target.value);
+};
+
+/* Save */
+document.getElementById("saveForm").onclick = () => {
+  localStorage.setItem("smartForm", JSON.stringify(fields));
+  alert("Form saved!");
+};
+
+/* Load */
 const saved = localStorage.getItem("smartForm");
 if (saved) {
   fields = JSON.parse(saved);
