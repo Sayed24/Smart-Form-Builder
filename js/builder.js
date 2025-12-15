@@ -153,3 +153,65 @@ if (saved) {
   fields = JSON.parse(saved);
   render();
 }
+
+/* Mobile Panel Toggle */
+const mobileMenu = document.getElementById("mobileMenu");
+
+mobileMenu.onclick = () => {
+  document.querySelector(".elements").classList.toggle("active");
+};
+
+/* Auto Preview on Mobile */
+if (window.innerWidth < 768) {
+  previewMode = true;
+  document.body.classList.add("preview");
+}
+
+/* Close panels on field select (mobile UX) */
+function selectField(id) {
+  selectedFieldId = id;
+  const field = fields.find(f => f.id === id);
+
+  settingsPanel.innerHTML = `
+    <label>Label</label>
+    <input id="labelInput" value="${field.label}">
+
+    <label>
+      <input type="checkbox" id="requiredInput" ${field.required ? "checked" : ""}>
+      Required
+    </label>
+
+    <div class="logic">
+      <strong>Conditional Logic</strong>
+      <select id="logicField">
+        <option value="">None</option>
+        ${fields.filter(f => f.id !== field.id)
+          .map(f => `<option value="${f.id}">${f.label}</option>`)}
+      </select>
+      <input id="logicValue" placeholder="Value">
+    </div>
+  `;
+
+  document.querySelector(".settings").classList.add("active");
+
+  document.getElementById("labelInput").oninput = e => {
+    field.label = e.target.value;
+    render();
+  };
+
+  document.getElementById("requiredInput").onchange = e => {
+    field.required = e.target.checked;
+  };
+
+  document.getElementById("logicField").onchange = e => {
+    field.showIf = e.target.value
+      ? { fieldId: +e.target.value, value: "" }
+      : null;
+  };
+
+  document.getElementById("logicValue").oninput = e => {
+    if (field.showIf) field.showIf.value = e.target.value;
+  };
+
+  render();
+}
