@@ -104,3 +104,39 @@ aside, main {
   font-size: 14px;
   font-weight: 600;
 }
+
+/* Dark Theme */
+body.dark {
+  --bg: #020617;
+  --surface: #020617;
+  --border: #1e293b;
+  --text: #e5e7eb;
+}
+
+/* Preview Mode */
+.preview .elements,
+.preview .settings {
+  display: none;
+}
+
+.preview .app {
+  grid-template-columns: 1fr;
+}
+
+.preview .field {
+  cursor: default;
+}
+
+/* Field Controls */
+.logic {
+  background: #f1f5f9;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+body.dark .logic {
+  background: #020617;
+}
+
