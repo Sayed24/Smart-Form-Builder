@@ -63,10 +63,20 @@ function render() {
 /* Inputs */
 function renderInput(field) {
   switch (field.type) {
-    case "textarea": return `<textarea></textarea>`;
-    case "email": return `<input type="email">`;
+    case "textarea": return `<textarea placeholder="Your answer"></textarea>`;
+    case "email": return `<input type="email" placeholder="email@example.com">`;
     case "date": return `<input type="date">`;
-    default: return `<input type="text">`;
+    case "number": return `<input type="number">`;
+    case "url": return `<input type="url" placeholder="https://">`;
+    case "rating":
+      return `
+        <div class="rating">
+          ${[1,2,3,4,5].map(n => `<span>☆</span>`).join("")}
+        </div>`;
+    case "section":
+      return `<hr>`;
+    default:
+      return `<input type="text" placeholder="Your answer">`;
   }
 }
 
