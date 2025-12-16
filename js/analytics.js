@@ -21,3 +21,19 @@ if (responses.length) {
     }
   });
 }
+document.getElementById("exportCSV").onclick = () => {
+  if (!responses.length) return;
+
+  const headers = Object.keys(responses[0].data);
+  const rows = responses.map(r =>
+    headers.map(h => `"${r.data[h] || ""}"`).join(",")
+  );
+
+  const csv = [headers.join(","), ...rows].join("\n");
+  const blob = new Blob([csv], { type: "text/csv" });
+
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "responses.csv";
+  a.click();
+};
