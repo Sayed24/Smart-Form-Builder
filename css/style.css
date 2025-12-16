@@ -267,3 +267,23 @@ input, textarea {
     padding: 14px;
   }
 }
+.field {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+button {
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+.canvas {
+  transition: background 0.3s ease;
+}
