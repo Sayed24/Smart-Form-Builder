@@ -248,3 +248,22 @@ input, textarea {
   margin-right: 4px;
   cursor: pointer;
 }
+@media (max-width: 480px) {
+  .topbar {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .top-actions button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .field {
+    padding: 14px;
+  }
+}
