@@ -44,21 +44,32 @@ function render() {
     if (field.showIf && !evaluateLogic(field.showIf)) return;
 
     const div = document.createElement("div");
-    div.className = "field";
-    if (field.id === selectedFieldId) div.classList.add("selected");
+div.className = "field";
+div.setAttribute("draggable", true);
 
-    div.innerHTML = `
-      <strong>${field.label}</strong>
-      <div>${renderInput(field)}</div>
-    `;
+if (field.id === selectedFieldId) div.classList.add("selected");
 
-    if (!previewMode) {
-      div.onclick = () => selectField(field.id);
-    }
+div.innerHTML = `
+  <strong>${field.label}</strong>
+  <div>${renderInput(field)}</div>
+`;
 
-    canvas.appendChild(div);
-  });
+div.ondragstart = e => {
+  e.dataTransfer.setData("id", field.id);
+};
+
+div.ondragover = e => e.preventDefault();
+
+div.ondrop = e => {
+  const draggedId = +e.dataTransfer.getData("id");
+  reorderFields(draggedId, field.id);
+};
+
+if (!previewMode) {
+  div.onclick = () => selectField(field.id);
 }
+
+canvas.appendChild(div);
 
 /* Inputs */
 function renderInput(field) {
