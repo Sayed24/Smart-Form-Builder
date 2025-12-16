@@ -127,6 +127,15 @@ function selectField(id) {
   render();
 }
 
+function reorderFields(draggedId, targetId) {
+  const from = fields.findIndex(f => f.id === draggedId);
+  const to = fields.findIndex(f => f.id === targetId);
+
+  const moved = fields.splice(from, 1)[0];
+  fields.splice(to, 0, moved);
+  render();
+}
+
 /* Logic Evaluation */
 function evaluateLogic(condition) {
   const target = document.querySelector(
