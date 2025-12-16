@@ -70,6 +70,8 @@ if (!previewMode) {
 }
 
 canvas.appendChild(div);
+ });
+}   
 
 /* Inputs */
 function renderInput(field) {
