@@ -359,3 +359,43 @@ button:hover {
 .field.drop-target {
   border: 2px dashed var(--primary);
 }
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.header-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.header-nav a,
+.header-nav button {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 1.4rem;
+  background: none;
+  border: none;
+}
