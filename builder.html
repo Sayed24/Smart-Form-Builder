@@ -12,17 +12,19 @@
 </head>
 <body>
 
-<header class="topbar">
-  <a href="index.html" class="logo">Smart Form Builder</a>
-  <div class="top-actions">
+<header class="app-header">
+  <div class="header-left">
+    <a href="index.html" class="logo">SmartForm</a>
+  </div>
+
+  <button class="menu-toggle" id="menuToggle">☰</button>
+
+  <nav class="header-nav" id="headerNav">
     <button onclick="undo()">Undo</button>
     <button onclick="redo()">Redo</button>
-    <button id="previewToggle">Preview</button>
-    <button id="themeToggle">Dark</button>
-    <input type="color" id="primaryColor" title="Primary Color">
-    <button id="saveForm">Save Form</button>
-    <button class="mobile-menu" id="mobileMenu">☰</button>
-  </div>
+    <a href="form.html">Preview</a>
+    <a href="analytics.html">Analytics</a>
+  </nav>
 </header>
 
 <div class="app">
