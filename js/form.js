@@ -27,6 +27,9 @@ fields.forEach(field => {
     default:
       input = document.createElement("input");
   }
+  label.setAttribute("for", field.id);
+input.id = field.id;
+input.setAttribute("aria-required", field.required);
 
   input.required = field.required;
   input.name = field.id;
