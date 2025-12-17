@@ -71,7 +71,17 @@ if (!previewMode) {
 
 canvas.appendChild(div);
  });
-}   
+}  
+
+div.setAttribute("role", "button");
+div.setAttribute("tabindex", "0");
+div.setAttribute("aria-label", field.label);
+
+div.onkeydown = e => {
+  if (e.key === "Enter") {
+    selectField(field.id);
+  }
+};
 
 /* Inputs */
 function renderInput(field) {
