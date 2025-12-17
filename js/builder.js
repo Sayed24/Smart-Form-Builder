@@ -44,6 +44,30 @@ canvas.addEventListener("drop", e => {
   addField(type);
 });
 
+div.ondragstart = e => {
+  div.classList.add("dragging");
+  e.dataTransfer.setData("id", field.id);
+};
+
+div.ondragend = () => {
+  div.classList.remove("dragging");
+};
+
+div.ondragover = e => {
+  e.preventDefault();
+  div.classList.add("drop-target");
+};
+
+div.ondragleave = () => {
+  div.classList.remove("drop-target");
+};
+
+div.ondrop = e => {
+  div.classList.remove("drop-target");
+  const draggedId = +e.dataTransfer.getData("id");
+  reorderFields(draggedId, field.id);
+};
+
 /* Field Model */
 function addField(type) {
   fields.push({
