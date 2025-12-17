@@ -433,3 +433,8 @@ button:hover {
     grid-template-columns: 1fr;
   }
 }
+button,
+select,
+input {
+  min-height: 44px;
+}
