@@ -1,3 +1,27 @@
+let history = [];
+let historyIndex = -1;
+
+function saveState() {
+  history = history.slice(0, historyIndex + 1);
+  history.push(JSON.stringify(fields));
+  historyIndex++;
+}
+
+function undo() {
+  if (historyIndex > 0) {
+    historyIndex--;
+    fields = JSON.parse(history[historyIndex]);
+    render();
+  }
+}
+
+function redo() {
+  if (historyIndex < history.length - 1) {
+    historyIndex++;
+    fields = JSON.parse(history[historyIndex]);
+    render();
+  }
+}
 const canvas = document.getElementById("formCanvas");
 const elements = document.querySelectorAll(".element");
 const settingsPanel = document.getElementById("settingsPanel");
