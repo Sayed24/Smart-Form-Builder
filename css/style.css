@@ -350,3 +350,12 @@ button:hover {
   padding: 30px;
   color: #94a3b8;
 }
+
+.field.dragging {
+  opacity: 0.4;
+  transform: scale(0.98);
+}
+
+.field.drop-target {
+  border: 2px dashed var(--primary);
+}
