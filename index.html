@@ -42,5 +42,14 @@
   <p>© 2025 Sayedrahim Sadat</p>
 </footer>
 
+<script>
+document.getElementById("roleSelect").onchange = e => {
+  localStorage.setItem("role", e.target.value);
+};
+
+document.getElementById("roleSelect").value =
+  localStorage.getItem("role") || "admin";
+</script>
+
 </body>
 </html>
