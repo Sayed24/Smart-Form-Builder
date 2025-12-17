@@ -1,3 +1,13 @@
+const role = localStorage.getItem("role") || "admin";
+
+if (role !== "admin") {
+  document.body.innerHTML = `
+    <div style="padding:40px;text-align:center">
+      <h2>Access Restricted</h2>
+      <p>You do not have permission to edit forms.</p>
+    </div>
+  `;
+}
 let history = [];
 let historyIndex = -1;
 
