@@ -1,3 +1,11 @@
+const role = localStorage.getItem("role") || "viewer";
+
+if (role === "admin") {
+  document.body.insertAdjacentHTML(
+    "afterbegin",
+    "<p style='text-align:center'>Admin Preview Mode</p>"
+  );
+}
 const form = document.getElementById("publicForm");
 const submitBtn = document.getElementById("submitBtn");
 
