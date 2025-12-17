@@ -287,3 +287,66 @@ button:hover {
 .canvas {
   transition: background 0.3s ease;
 }
+
+.hero {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 16px;
+}
+
+.hero p {
+  color: #64748b;
+  font-size: 18px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.hero-actions {
+  margin-top: 30px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.btn.primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.feature {
+  background: var(--surface);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.05);
+  text-align: center;
+}
+
+.footer {
+  text-align: center;
+  padding: 30px;
+  color: #94a3b8;
+}
