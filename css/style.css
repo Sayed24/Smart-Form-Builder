@@ -1,36 +1,51 @@
-/* =========================
-   ROOT VARIABLES
-========================= */
+/* =====================================================
+   SMARTFORM — MOBILE-FIRST ELITE UI SYSTEM
+===================================================== */
+
+/* -----------------------------
+   CSS VARIABLES
+----------------------------- */
 :root {
   --primary: #2563eb;
   --primary-dark: #1e40af;
   --bg: #f8fafc;
+  --surface: #ffffff;
   --text: #0f172a;
   --muted: #6b7280;
   --border: #e5e7eb;
-  --radius: 12px;
+  --radius: 14px;
   --shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* =========================
-   GLOBAL RESET
-========================= */
-* {
+/* -----------------------------
+   RESET
+----------------------------- */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
+  margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.55;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }
 
 a {
-  color: inherit;
   text-decoration: none;
+  color: inherit;
 }
 
 button,
@@ -41,74 +56,69 @@ textarea {
   font-size: 16px;
 }
 
-/* =========================
-   OFFLINE BANNER
-========================= */
-#offlineBanner {
-  display: none;
-  background: #fde68a;
-  color: #92400e;
-  text-align: center;
-  padding: 10px;
-  font-weight: 500;
-}
-
-body.offline #offlineBanner {
-  display: block;
-}
-
-/* =========================
-   HEADER
-========================= */
+/* -----------------------------
+   HEADER (MOBILE FIRST)
+----------------------------- */
 .app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
-  background: #fff;
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
 }
 
 .logo {
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 800;
+  font-size: 1.15rem;
   color: var(--primary);
 }
 
-.header-actions,
-.header-nav {
-  display: flex;
-  gap: 12px;
-}
-
-.header-nav a,
-.header-nav button {
-  background: none;
-  border: none;
-  padding: 8px 12px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
 .menu-toggle {
-  display: none;
-  font-size: 1.5rem;
   background: none;
   border: none;
+  font-size: 1.6rem;
   cursor: pointer;
 }
 
-/* =========================
+/* Mobile Nav */
+.header-nav {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  transform: translateY(-120%);
+  transition: transform 0.25s ease;
+}
+
+.header-nav.open {
+  transform: translateY(0);
+}
+
+.header-nav a {
+  padding: 12px;
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+/* -----------------------------
    BUTTONS
-========================= */
+----------------------------- */
 .btn {
-  padding: 10px 16px;
+  padding: 12px 18px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--surface);
   font-weight: 600;
   cursor: pointer;
 }
@@ -119,23 +129,20 @@ body.offline #offlineBanner {
   border-color: var(--primary);
 }
 
-button:active,
-a:active {
-  transform: scale(0.97);
+.btn.full {
+  width: 100%;
 }
 
-/* =========================
-   HERO
-========================= */
+/* -----------------------------
+   HERO (INDEX)
+----------------------------- */
 .hero {
-  max-width: 900px;
-  margin: 80px auto;
+  padding: 64px 20px;
   text-align: center;
-  padding: 0 20px;
 }
 
 .hero h1 {
-  font-size: 2.4rem;
+  font-size: 2rem;
   margin-bottom: 12px;
 }
 
@@ -146,98 +153,90 @@ a:active {
 
 .hero-actions {
   display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-/* =========================
-   FOOTER
-========================= */
-.footer {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--muted);
-}
-
-/* =========================
-   BUILDER LAYOUT
-========================= */
-.builder-layout {
-  display: grid;
-  grid-template-columns: 260px 1fr 300px;
-  gap: 16px;
-  padding: 16px;
-}
-
-.toolbox,
-.settings,
-.canvas {
-  background: #fff;
-  border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: var(--shadow);
-}
-
-.toolbox button {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-/* =========================
-   FORM CANVAS
-========================= */
-#formCanvas {
-  display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
+/* -----------------------------
+   BUILDER — MOBILE FIRST
+----------------------------- */
+.builder-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* Toolbox (mobile = horizontal) */
+.toolbox {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.toolbox button {
+  flex-shrink: 0;
+}
+
+/* Canvas */
+.canvas {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+#formCanvas {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Field Card */
 .field {
-  padding: 14px;
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: #fff;
+  padding: 14px;
   position: relative;
+  touch-action: manipulation;
+}
+
+/* Drag Handle (Mobile UX) */
+.field::before {
+  content: "☰";
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  opacity: 0.35;
+  font-size: 1.2rem;
 }
 
 .field.dragging {
   opacity: 0.4;
-  transform: scale(0.98);
 }
 
-.field.drop-target {
-  border: 2px dashed var(--primary);
+/* -----------------------------
+   SETTINGS (SLIDE-UP PANEL)
+----------------------------- */
+.settings {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
 }
 
-/* Drag hint */
-@media (max-width: 768px) {
-  .field::after {
-    content: "☰";
-    position: absolute;
-    right: 14px;
-    top: 14px;
-    opacity: 0.3;
-    font-size: 1.1rem;
-  }
-}
-
-/* =========================
-   SETTINGS PANEL
-========================= */
-.settings input[type="text"] {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-/* =========================
+/* -----------------------------
    PUBLIC FORM
-========================= */
+----------------------------- */
 .form-page {
-  max-width: 600px;
-  margin: 40px auto;
-  background: #fff;
+  max-width: 100%;
+  margin: 20px;
+  background: var(--surface);
   padding: 20px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -246,101 +245,88 @@ a:active {
 .form-page form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
-/* =========================
+.form-page label {
+  font-weight: 600;
+}
+
+.form-page input,
+.form-page textarea,
+.form-page select {
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+/* -----------------------------
    ANALYTICS
-========================= */
+----------------------------- */
 .analytics-page {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 0 20px;
+  padding: 20px;
 }
 
 .analytics-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: 1fr;
   gap: 16px;
 }
 
 .card {
-  background: #fff;
-  padding: 20px;
+  background: var(--surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  padding: 20px;
 }
 
-/* =========================
-   MOBILE ACTION BAR
-========================= */
-.mobile-action-bar {
-  display: none;
-}
-
-/* =========================
-   LOCAL NOTE
-========================= */
-.local-note {
+/* -----------------------------
+   FOOTER
+----------------------------- */
+.footer {
   text-align: center;
-  font-size: 0.85rem;
+  padding: 40px 20px;
   color: var(--muted);
-  margin-top: 8px;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-@media (max-width: 1024px) {
-  .builder-layout {
-    grid-template-columns: 1fr;
-  }
-}
+/* =====================================================
+   DESKTOP ENHANCEMENTS
+===================================================== */
+@media (min-width: 900px) {
 
-@media (max-width: 768px) {
   .menu-toggle {
-    display: block;
+    display: none;
   }
 
   .header-nav {
-    position: absolute;
-    top: 60px;
-    right: 16px;
-    background: #fff;
-    flex-direction: column;
-    padding: 14px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    gap: 10px;
-    transform: translateY(-10px);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.25s ease;
-  }
-
-  .header-nav.open {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .mobile-action-bar {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #fff;
-    border-top: 1px solid var(--border);
-    padding: 10px;
-    justify-content: space-around;
-    z-index: 200;
-  }
-
-  .mobile-action-bar button,
-  .mobile-action-bar a {
-    font-weight: 600;
-    background: none;
+    position: static;
+    transform: none;
+    flex-direction: row;
+    padding: 0;
     border: none;
+    gap: 14px;
+  }
+
+  .builder-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr 320px;
+    gap: 20px;
+  }
+
+  .toolbox {
+    flex-direction: column;
+  }
+
+  .hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .hero-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .analytics-cards {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }
