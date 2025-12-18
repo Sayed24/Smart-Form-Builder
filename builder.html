@@ -2,20 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Smart Form Builder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Builder • SmartForm</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
 </head>
 <body>
 
+<!-- Header -->
 <header class="app-header">
-  <div class="header-left">
-    <a href="index.html" class="logo">SmartForm</a>
-  </div>
+  <a href="index.html" class="logo">SmartForm</a>
 
   <button class="menu-toggle" id="menuToggle">☰</button>
 
@@ -27,44 +25,52 @@
   </nav>
 </header>
 
-<div class="app">
-  <!-- LEFT PANEL -->
-  <aside class="elements">
-    <h3>Form Elements</h3>
-    <div class="element" draggable="true" data-type="text">Text Input</div>
-    <div class="element" draggable="true" data-type="email">Email</div>
-    <div class="element" draggable="true" data-type="textarea">Textarea</div>
-    <div class="element" draggable="true" data-type="select">Dropdown</div>
-    <div class="element" draggable="true" data-type="checkbox">Checkbox</div>
-    <div class="element" draggable="true" data-type="radio">Radio</div>
-    <div class="element" draggable="true" data-type="date">Date</div>
-    <div class="element" draggable="true" data-type="number">Number</div>
-    <div class="element" draggable="true" data-type="url">Website URL</div>
-    <div class="element" draggable="true" data-type="rating">Rating (1–5)</div>
-    <div class="element" draggable="true" data-type="section">Section Divider</div>
+<p class="local-note">All changes are saved locally in your browser.</p>
+
+<!-- Builder Layout -->
+<main class="builder-layout">
+
+  <!-- Toolbox -->
+  <aside class="toolbox">
+    <h3>Add Field</h3>
+    <button onclick="addField('text')">Text</button>
+    <button onclick="addField('email')">Email</button>
+    <button onclick="addField('number')">Number</button>
+    <button onclick="addField('rating')">Rating</button>
   </aside>
 
-  <!-- BUILDER -->
-  <main class="builder-layout">
-  <aside class="toolbox">...</aside>
-  <section class="canvas">...</section>
-  <aside class="settings">...</aside>
-</main>
+  <!-- Canvas -->
+  <section class="canvas">
+    <h3>Form Preview</h3>
+    <div id="formCanvas"></div>
+  </section>
 
-  <!-- SETTINGS -->
+  <!-- Settings -->
   <aside class="settings">
     <h3>Field Settings</h3>
     <div id="settingsPanel">
-      <p>Select a field</p>
+      <p>Select a field to edit settings</p>
     </div>
   </aside>
+
+</main>
+
+<!-- Mobile Action Bar -->
+<div class="mobile-action-bar">
+  <button onclick="undo()">Undo</button>
+  <button onclick="redo()">Redo</button>
+  <a href="form.html">Preview</a>
 </div>
 
+<!-- Scripts -->
 <script src="js/builder.js"></script>
-  <script>
+
+<script>
+/* Mobile Menu Toggle */
 document.getElementById("menuToggle").onclick = () => {
   document.getElementById("headerNav").classList.toggle("open");
 };
 </script>
+
 </body>
 </html>
