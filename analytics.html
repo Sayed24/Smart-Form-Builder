@@ -6,8 +6,9 @@
   <title>Analytics • SmartForm</title>
 
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#2563eb" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -23,10 +24,12 @@
   </nav>
 </header>
 
-<!-- Page Content -->
+<!-- Analytics Page -->
 <main class="analytics-page">
   <h2>Form Analytics</h2>
+  <p class="muted">Visual insights from submitted responses</p>
 
+  <!-- Stats -->
   <div class="analytics-cards">
     <div class="card">
       <h3>Total Responses</h3>
@@ -34,18 +37,32 @@
     </div>
   </div>
 
+  <!-- Chart -->
+  <div class="card">
+    <h3>Responses Over Time</h3>
+    <canvas id="responseChart"></canvas>
+  </div>
+
+  <!-- Export -->
+  <div class="card">
+    <h3>Export Data</h3>
+    <button class="btn primary full" id="exportCsv">
+      Download CSV
+    </button>
+  </div>
+
+  <!-- Details -->
   <div id="analyticsDetails"></div>
 </main>
 
-<!-- Scripts -->
-<script src="js/analytics.js"></script>
-
+<!-- Mobile Menu -->
 <script>
-/* Mobile Menu Toggle */
-document.getElementById("menuToggle").onclick = () => {
-  document.getElementById("headerNav").classList.toggle("open");
-};
+  document.getElementById("menuToggle").onclick = () => {
+    document.getElementById("headerNav").classList.toggle("open");
+  };
 </script>
+
+<script src="js/analytics.js"></script>
 
 </body>
 </html>
