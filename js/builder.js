@@ -1,319 +1,147 @@
-const role = localStorage.getItem("role") || "admin";
+/* =========================
+   SMART FORM BUILDER
+   Builder Logic
+========================= */
 
-if (role !== "admin") {
-  document.body.innerHTML = `
-    <div style="padding:40px;text-align:center">
-      <h2>Access Restricted</h2>
-      <p>You do not have permission to edit forms.</p>
-    </div>
-  `;
-}
-let history = [];
-let historyIndex = -1;
+const formCanvas = document.getElementById("formCanvas");
+const fieldSettings = document.getElementById("fieldSettings");
 
-function saveState() {
-  history = history.slice(0, historyIndex + 1);
-  history.push(JSON.stringify(fields));
-  historyIndex++;
-}
-
-function undo() {
-  if (historyIndex > 0) {
-    historyIndex--;
-    fields = JSON.parse(history[historyIndex]);
-    render();
-  }
-}
-
-function redo() {
-  if (historyIndex < history.length - 1) {
-    historyIndex++;
-    fields = JSON.parse(history[historyIndex]);
-    render();
-  }
-}
-const canvas = document.getElementById("formCanvas");
-const elements = document.querySelectorAll(".element");
-const settingsPanel = document.getElementById("settingsPanel");
-
-let fields = [];
+let fields = JSON.parse(localStorage.getItem("smartform_fields")) || [];
 let selectedFieldId = null;
-let previewMode = false;
 
-/* Drag */
-elements.forEach(el => {
-  el.addEventListener("dragstart", e => {
-    e.dataTransfer.setData("type", el.dataset.type);
-  });
-});
-
-canvas.addEventListener("dragover", e => e.preventDefault());
-canvas.addEventListener("drop", e => {
-  e.preventDefault();
-  const type = e.dataTransfer.getData("type");
-  addField(type);
-});
-
-div.ondragstart = e => {
-  div.classList.add("dragging");
-  e.dataTransfer.setData("id", field.id);
-};
-
-div.ondragend = () => {
-  div.classList.remove("dragging");
-};
-
-div.ondragover = e => {
-  e.preventDefault();
-  div.classList.add("drop-target");
-};
-
-div.ondragleave = () => {
-  div.classList.remove("drop-target");
-};
-
-div.ondrop = e => {
-  div.classList.remove("drop-target");
-  const draggedId = +e.dataTransfer.getData("id");
-  reorderFields(draggedId, field.id);
-};
-
-/* Field Model */
-function addField(type) {
-  fields.push({
+/* =========================
+   FIELD TEMPLATES
+========================= */
+const templates = {
+  text: () => ({
     id: Date.now(),
-    type,
-    label: `${type} field`,
-    required: false,
-    showIf: null
-  });
-  render();
-}
+    type: "text",
+    label: "Text Field",
+    required: false
+  }),
+  textarea: () => ({
+    id: Date.now(),
+    type: "textarea",
+    label: "Paragraph",
+    required: false
+  }),
+  select: () => ({
+    id: Date.now(),
+    type: "select",
+    label: "Dropdown",
+    options: ["Option 1", "Option 2"]
+  }),
+  checkbox: () => ({
+    id: Date.now(),
+    type: "checkbox",
+    label: "Checkbox"
+  })
+};
 
-/* Render */
+/* =========================
+   ADD FIELD
+========================= */
+window.addField = function (type) {
+  fields.push(templates[type]());
+  persist();
+  render();
+};
+
+/* =========================
+   RENDER
+========================= */
 function render() {
-  canvas.innerHTML = "";
-  if (!fields.length) {
-    canvas.innerHTML = `<p class="empty">Drag elements here</p>`;
-    return;
-  }
+  formCanvas.innerHTML = "";
 
-  fields.forEach(field => {
-    if (field.showIf && !evaluateLogic(field.showIf)) return;
+  fields.forEach((field, index) => {
+    const el = document.createElement("div");
+    el.className = "field";
+    el.draggable = true;
+    el.dataset.id = field.id;
 
-    const div = document.createElement("div");
-div.className = "field";
-div.setAttribute("draggable", true);
+    el.innerHTML = `
+      <strong>${field.label}</strong>
+      <div class="muted">${field.type}</div>
+    `;
 
-if (field.id === selectedFieldId) div.classList.add("selected");
+    /* Select */
+    el.onclick = () => selectField(field.id);
 
-div.innerHTML = `
-  <strong>${field.label}</strong>
-  <div>${renderInput(field)}</div>
-`;
+    /* Drag */
+    el.ondragstart = e => {
+      el.classList.add("dragging");
+      e.dataTransfer.setData("text/plain", index);
+    };
 
-div.ondragstart = e => {
-  e.dataTransfer.setData("id", field.id);
-};
+    el.ondragend = () => el.classList.remove("dragging");
 
-div.ondragover = e => e.preventDefault();
+    el.ondragover = e => {
+      e.preventDefault();
+      el.classList.add("drop-target");
+    };
 
-div.ondrop = e => {
-  const draggedId = +e.dataTransfer.getData("id");
-  reorderFields(draggedId, field.id);
-};
+    el.ondragleave = () => el.classList.remove("drop-target");
 
-if (!previewMode) {
-  div.onclick = () => selectField(field.id);
+    el.ondrop = e => {
+      e.preventDefault();
+      el.classList.remove("drop-target");
+
+      const from = Number(e.dataTransfer.getData("text/plain"));
+      const to = index;
+
+      if (from !== to) {
+        const moved = fields.splice(from, 1)[0];
+        fields.splice(to, 0, moved);
+        persist();
+        render();
+      }
+    };
+
+    formCanvas.appendChild(el);
+  });
 }
 
-canvas.appendChild(div);
- });
-}  
-
-div.setAttribute("role", "button");
-div.setAttribute("tabindex", "0");
-div.setAttribute("aria-label", field.label);
-
-div.onkeydown = e => {
-  if (e.key === "Enter") {
-    selectField(field.id);
-  }
-};
-
-/* Inputs */
-function renderInput(field) {
-  switch (field.type) {
-    case "textarea": return `<textarea placeholder="Your answer"></textarea>`;
-    case "email": return `<input type="email" placeholder="email@example.com">`;
-    case "date": return `<input type="date">`;
-    case "number": return `<input type="number">`;
-    case "url": return `<input type="url" placeholder="https://">`;
-    case "rating":
-      return `
-        <div class="rating">
-          ${[1,2,3,4,5].map(n => `<span>☆</span>`).join("")}
-        </div>`;
-    case "section":
-      return `<hr>`;
-    default:
-      return `<input type="text" placeholder="Your answer">`;
-  }
-}
-
-/* Select Field */
+/* =========================
+   SELECT FIELD
+========================= */
 function selectField(id) {
   selectedFieldId = id;
   const field = fields.find(f => f.id === id);
+  if (!field) return;
 
-  settingsPanel.innerHTML = `
+  fieldSettings.innerHTML = `
     <label>Label</label>
-    <input id="labelInput" value="${field.label}">
+    <input type="text" value="${field.label}" id="labelInput" />
 
     <label>
-      <input type="checkbox" id="requiredInput" ${field.required ? "checked" : ""}>
+      <input type="checkbox" id="requiredInput" ${field.required ? "checked" : ""} />
       Required
     </label>
-
-    <div class="logic">
-      <strong>Conditional Logic</strong>
-      <select id="logicField">
-        <option value="">None</option>
-        ${fields.filter(f => f.id !== field.id)
-          .map(f => `<option value="${f.id}">${f.label}</option>`)}
-      </select>
-      <input id="logicValue" placeholder="Value">
-    </div>
   `;
 
   document.getElementById("labelInput").oninput = e => {
     field.label = e.target.value;
+    persist();
     render();
   };
 
-  document.getElementById("requiredInput").onchange = e => {
-    field.required = e.target.checked;
-  };
-
-  document.getElementById("logicField").onchange = e => {
-    field.showIf = e.target.value
-      ? { fieldId: +e.target.value, value: "" }
-      : null;
-  };
-
-  document.getElementById("logicValue").oninput = e => {
-    if (field.showIf) field.showIf.value = e.target.value;
-  };
-
-  render();
+  const req = document.getElementById("requiredInput");
+  if (req) {
+    req.onchange = e => {
+      field.required = e.target.checked;
+      persist();
+    };
+  }
 }
 
-
-/* Logic Evaluation */
-function evaluateLogic(condition) {
-  const target = document.querySelector(
-    `[data-field="${condition.fieldId}"] input`
-  );
-  return target && target.value === condition.value;
+/* =========================
+   STORAGE
+========================= */
+function persist() {
+  localStorage.setItem("smartform_fields", JSON.stringify(fields));
 }
 
-/* Preview */
-document.getElementById("previewToggle").onclick = () => {
-  previewMode = !previewMode;
-  document.body.classList.toggle("preview");
-  render();
-};
-
-/* Theme */
-document.getElementById("themeToggle").onclick = () => {
-  document.body.classList.toggle("dark");
-};
-
-document.getElementById("primaryColor").oninput = e => {
-  document.documentElement.style.setProperty("--primary", e.target.value);
-};
-
-/* Save */
-document.getElementById("saveForm").onclick = () => {
-  localStorage.setItem("smartForm", JSON.stringify(fields));
-  alert("Form saved!");
-};
-
-/* Load */
-const saved = localStorage.getItem("smartForm");
-if (saved) {
-  fields = JSON.parse(saved);
-  render();
-}
-
-/* Mobile Panel Toggle */
-const mobileMenu = document.getElementById("mobileMenu");
-
-mobileMenu.onclick = () => {
-  document.querySelector(".elements").classList.toggle("active");
-};
-
-/* Auto Preview on Mobile */
-if (window.innerWidth < 768) {
-  previewMode = true;
-  document.body.classList.add("preview");
-}
-
-/* Close panels on field select (mobile UX) */
-function selectField(id) {
-  selectedFieldId = id;
-  const field = fields.find(f => f.id === id);
-
-  settingsPanel.innerHTML = `
-    <label>Label</label>
-    <input id="labelInput" value="${field.label}">
-
-    <label>
-      <input type="checkbox" id="requiredInput" ${field.required ? "checked" : ""}>
-      Required
-    </label>
-
-    <div class="logic">
-      <strong>Conditional Logic</strong>
-      <select id="logicField">
-        <option value="">None</option>
-        ${fields.filter(f => f.id !== field.id)
-          .map(f => `<option value="${f.id}">${f.label}</option>`)}
-      </select>
-      <input id="logicValue" placeholder="Value">
-    </div>
-  `;
-
-  document.querySelector(".settings").classList.add("active");
-
-  document.getElementById("labelInput").oninput = e => {
-    field.label = e.target.value;
-    render();
-  };
-
-  document.getElementById("requiredInput").onchange = e => {
-    field.required = e.target.checked;
-  };
-
-  document.getElementById("logicField").onchange = e => {
-    field.showIf = e.target.value
-      ? { fieldId: +e.target.value, value: "" }
-      : null;
-  };
-
-  document.getElementById("logicValue").oninput = e => {
-    if (field.showIf) field.showIf.value = e.target.value;
-  };
-
-  render();
-}
-function reorderFields(draggedId, targetId) {
-  const from = fields.findIndex(f => f.id === draggedId);
-  const to = fields.findIndex(f => f.id === targetId);
-
-  if (from === -1 || to === -1) return;
-
-  const moved = fields.splice(from, 1)[0];
-  fields.splice(to, 0, moved);
-  render();
-}
+/* =========================
+   INIT
+========================= */
+render();
