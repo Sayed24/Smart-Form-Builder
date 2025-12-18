@@ -1,67 +1,107 @@
-const role = localStorage.getItem("role") || "viewer";
+/* =========================
+   SMART FORM
+   Public Form Logic
+========================= */
 
-if (role === "admin") {
-  document.body.insertAdjacentHTML(
-    "afterbegin",
-    "<p style='text-align:center'>Admin Preview Mode</p>"
-  );
-}
-const form = document.getElementById("publicForm");
-const submitBtn = document.getElementById("submitBtn");
+const formContainer = document.getElementById("publicForm");
 
-const fields = JSON.parse(localStorage.getItem("smartForm")) || [];
-const responses = JSON.parse(localStorage.getItem("responses")) || [];
+const fields = JSON.parse(localStorage.getItem("smartform_fields")) || [];
 
-fields.forEach(field => {
-  const wrapper = document.createElement("div");
-  wrapper.className = "field";
-
-  const label = document.createElement("label");
-  label.textContent = field.label;
-
-  let input;
-  switch (field.type) {
-    case "textarea":
-      input = document.createElement("textarea");
-      break;
-    case "email":
-      input = document.createElement("input");
-      input.type = "email";
-      break;
-    case "date":
-      input = document.createElement("input");
-      input.type = "date";
-      break;
-    default:
-      input = document.createElement("input");
+/* =========================
+   RENDER FORM
+========================= */
+function renderForm() {
+  if (!fields.length) {
+    formContainer.innerHTML = "<p>No form fields created yet.</p>";
+    return;
   }
-  label.setAttribute("for", field.id);
-input.id = field.id;
-input.setAttribute("aria-required", field.required);
 
-  input.required = field.required;
-  input.name = field.id;
+  const form = document.createElement("form");
 
-  wrapper.appendChild(label);
-  wrapper.appendChild(input);
-  form.appendChild(wrapper);
-});
+  fields.forEach(field => {
+    const wrap = document.createElement("div");
 
-submitBtn.onclick = e => {
-  e.preventDefault();
-  const data = {};
+    const label = document.createElement("label");
+    label.textContent = field.label;
 
-  fields.forEach(f => {
-    const el = form.querySelector(`[name="${f.id}"]`);
-    data[f.label] = el.value;
+    let input;
+
+    switch (field.type) {
+      case "text":
+        input = document.createElement("input");
+        input.type = "text";
+        break;
+
+      case "textarea":
+        input = document.createElement("textarea");
+        break;
+
+      case "select":
+        input = document.createElement("select");
+        field.options.forEach(opt => {
+          const o = document.createElement("option");
+          o.textContent = opt;
+          input.appendChild(o);
+        });
+        break;
+
+      case "checkbox":
+        input = document.createElement("input");
+        input.type = "checkbox";
+        break;
+    }
+
+    if (field.required) input.required = true;
+
+    wrap.append(label, input);
+    form.appendChild(wrap);
   });
+
+  const submit = document.createElement("button");
+  submit.className = "btn primary";
+  submit.textContent = "Submit";
+  form.appendChild(submit);
+
+  form.onsubmit = saveResponse;
+
+  formContainer.appendChild(form);
+}
+
+/* =========================
+   SAVE RESPONSE
+========================= */
+function saveResponse(e) {
+  e.preventDefault();
+
+  const data = {};
+  const inputs = e.target.querySelectorAll("input, textarea, select");
+
+  inputs.forEach((input, i) => {
+    if (input.type === "checkbox") {
+      data[i] = input.checked;
+    } else {
+      data[i] = input.value;
+    }
+  });
+
+  const responses =
+    JSON.parse(localStorage.getItem("smartform_responses")) || [];
 
   responses.push({
     date: new Date().toISOString(),
     data
   });
 
-  localStorage.setItem("responses", JSON.stringify(responses));
-  alert("Form submitted successfully!");
-  form.reset();
-};
+  localStorage.setItem(
+    "smartform_responses",
+    JSON.stringify(responses)
+  );
+
+  alert("Response submitted!");
+  e.target.reset();
+}
+
+/* =========================
+   INIT
+========================= */
+renderForm();
