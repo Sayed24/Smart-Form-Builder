@@ -6,8 +6,6 @@
   <title>Form Builder • SmartForm</title>
 
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#2563eb" />
 </head>
 <body>
 
@@ -18,59 +16,47 @@
   <button class="menu-toggle" id="menuToggle">☰</button>
 
   <nav class="header-nav" id="headerNav">
-    <button onclick="undo()">Undo</button>
-    <button onclick="redo()">Redo</button>
+    <a href="index.html">Home</a>
     <a href="form.html">Preview</a>
     <a href="analytics.html">Analytics</a>
   </nav>
 </header>
-
-<p class="local-note">All changes are saved locally in your browser.</p>
 
 <!-- Builder Layout -->
 <main class="builder-layout">
 
   <!-- Toolbox -->
   <aside class="toolbox">
-    <h3>Add Field</h3>
-    <button onclick="addField('text')">Text</button>
-    <button onclick="addField('email')">Email</button>
-    <button onclick="addField('number')">Number</button>
-    <button onclick="addField('rating')">Rating</button>
+    <button class="btn" onclick="addField('text')">Text</button>
+    <button class="btn" onclick="addField('textarea')">Paragraph</button>
+    <button class="btn" onclick="addField('select')">Dropdown</button>
+    <button class="btn" onclick="addField('checkbox')">Checkbox</button>
   </aside>
 
   <!-- Canvas -->
   <section class="canvas">
-    <h3>Form Preview</h3>
+    <h2>Build Your Form</h2>
     <div id="formCanvas"></div>
   </section>
 
   <!-- Settings -->
   <aside class="settings">
     <h3>Field Settings</h3>
-    <div id="settingsPanel">
-      <p>Select a field to edit settings</p>
+    <div id="fieldSettings">
+      <p class="muted">Select a field to edit settings.</p>
     </div>
   </aside>
 
 </main>
 
-<!-- Mobile Action Bar -->
-<div class="mobile-action-bar">
-  <button onclick="undo()">Undo</button>
-  <button onclick="redo()">Redo</button>
-  <a href="form.html">Preview</a>
-</div>
-
-<!-- Scripts -->
-<script src="js/builder.js"></script>
-
+<!-- Mobile Menu Script -->
 <script>
-/* Mobile Menu Toggle */
-document.getElementById("menuToggle").onclick = () => {
-  document.getElementById("headerNav").classList.toggle("open");
-};
+  document.getElementById("menuToggle").onclick = () => {
+    document.getElementById("headerNav").classList.toggle("open");
+  };
 </script>
+
+<script src="js/builder.js"></script>
 
 </body>
 </html>
