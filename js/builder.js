@@ -1,17 +1,17 @@
-/* =========================
-   SMART FORM BUILDER
-   Builder Logic
-========================= */
+/* =====================================================
+   SMARTFORM BUILDER — MOBILE & DESKTOP
+===================================================== */
 
 const formCanvas = document.getElementById("formCanvas");
 const fieldSettings = document.getElementById("fieldSettings");
 
 let fields = JSON.parse(localStorage.getItem("smartform_fields")) || [];
 let selectedFieldId = null;
+let dragIndex = null;
 
-/* =========================
+/* -----------------------------
    FIELD TEMPLATES
-========================= */
+----------------------------- */
 const templates = {
   text: () => ({
     id: Date.now(),
@@ -38,110 +38,128 @@ const templates = {
   })
 };
 
-/* =========================
+/* -----------------------------
    ADD FIELD
-========================= */
+----------------------------- */
 window.addField = function (type) {
   fields.push(templates[type]());
   persist();
   render();
 };
 
-/* =========================
+/* -----------------------------
    RENDER
-========================= */
+----------------------------- */
 function render() {
   formCanvas.innerHTML = "";
 
   fields.forEach((field, index) => {
-    const el = document.createElement("div");
-    el.className = "field";
-    el.draggable = true;
-    el.dataset.id = field.id;
+    const card = document.createElement("div");
+    card.className = "field";
+    card.dataset.index = index;
 
-    el.innerHTML = `
+    card.innerHTML = `
       <strong>${field.label}</strong>
       <div class="muted">${field.type}</div>
     `;
 
-    /* Select */
-    el.onclick = () => selectField(field.id);
+    /* Select field */
+    card.addEventListener("click", () => selectField(index));
 
-    /* Drag */
-    el.ondragstart = e => {
-      el.classList.add("dragging");
-      e.dataTransfer.setData("text/plain", index);
-    };
+    /* Desktop Drag */
+    card.draggable = true;
 
-    el.ondragend = () => el.classList.remove("dragging");
+    card.addEventListener("dragstart", e => {
+      dragIndex = index;
+      card.classList.add("dragging");
+    });
 
-    el.ondragover = e => {
-      e.preventDefault();
-      el.classList.add("drop-target");
-    };
+    card.addEventListener("dragend", () => {
+      card.classList.remove("dragging");
+    });
 
-    el.ondragleave = () => el.classList.remove("drop-target");
+    card.addEventListener("dragover", e => e.preventDefault());
 
-    el.ondrop = e => {
-      e.preventDefault();
-      el.classList.remove("drop-target");
+    card.addEventListener("drop", () => reorder(index));
 
-      const from = Number(e.dataTransfer.getData("text/plain"));
-      const to = index;
+    /* Mobile Touch Reorder */
+    card.addEventListener("touchstart", () => {
+      dragIndex = index;
+      card.classList.add("dragging");
+    });
 
-      if (from !== to) {
-        const moved = fields.splice(from, 1)[0];
-        fields.splice(to, 0, moved);
-        persist();
-        render();
+    card.addEventListener("touchend", () => {
+      card.classList.remove("dragging");
+      dragIndex = null;
+    });
+
+    card.addEventListener("touchmove", e => {
+      const touch = e.touches[0];
+      const target = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (target && target.classList.contains("field")) {
+        const toIndex = Number(target.dataset.index);
+        reorder(toIndex);
       }
-    };
+    });
 
-    formCanvas.appendChild(el);
+    formCanvas.appendChild(card);
   });
 }
 
-/* =========================
-   SELECT FIELD
-========================= */
-function selectField(id) {
-  selectedFieldId = id;
-  const field = fields.find(f => f.id === id);
-  if (!field) return;
+/* -----------------------------
+   REORDER LOGIC
+----------------------------- */
+function reorder(toIndex) {
+  if (dragIndex === null || dragIndex === toIndex) return;
+
+  const moved = fields.splice(dragIndex, 1)[0];
+  fields.splice(toIndex, 0, moved);
+  dragIndex = toIndex;
+
+  persist();
+  render();
+}
+
+/* -----------------------------
+   FIELD SETTINGS
+----------------------------- */
+function selectField(index) {
+  selectedFieldId = index;
+  const field = fields[index];
 
   fieldSettings.innerHTML = `
     <label>Label</label>
-    <input type="text" value="${field.label}" id="labelInput" />
+    <input type="text" value="${field.label}" />
 
-    <label>
-      <input type="checkbox" id="requiredInput" ${field.required ? "checked" : ""} />
+    <label class="checkbox">
+      <input type="checkbox" ${field.required ? "checked" : ""} />
       Required
     </label>
   `;
 
-  document.getElementById("labelInput").oninput = e => {
+  const [labelInput, requiredInput] =
+    fieldSettings.querySelectorAll("input");
+
+  labelInput.oninput = e => {
     field.label = e.target.value;
     persist();
     render();
   };
 
-  const req = document.getElementById("requiredInput");
-  if (req) {
-    req.onchange = e => {
-      field.required = e.target.checked;
-      persist();
-    };
-  }
+  requiredInput.onchange = e => {
+    field.required = e.target.checked;
+    persist();
+  };
 }
 
-/* =========================
+/* -----------------------------
    STORAGE
-========================= */
+----------------------------- */
 function persist() {
   localStorage.setItem("smartform_fields", JSON.stringify(fields));
 }
 
-/* =========================
+/* -----------------------------
    INIT
-========================= */
+----------------------------- */
 render();
