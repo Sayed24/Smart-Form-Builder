@@ -1,54 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Smart Form Builder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
 </head>
 <body>
 
-<header class="topbar">
-  <a class="logo" href="index.html">Smart Form Builder</a>
+<!-- Offline Banner -->
+<div id="offlineBanner">You are offline. Changes will be saved locally.</div>
+
+<!-- Header -->
+<header class="app-header">
+  <a href="index.html" class="logo">SmartForm</a>
+
+  <div class="header-actions">
+    <select id="roleSelect">
+      <option value="admin">Admin (Builder)</option>
+      <option value="viewer">Viewer (Form Only)</option>
+    </select>
+
+    <a href="builder.html" class="btn primary">Build a Form</a>
+    <button id="demoBtn" class="btn">View Demo</button>
+    <a href="analytics.html" class="btn">Analytics</a>
+  </div>
 </header>
 
+<!-- Hero -->
 <section class="hero">
-  <h1>Build Smart Forms in Minutes</h1>
-  <p>A modern, enterprise-style form builder with analytics and full mobile support.</p>
+  <h1>Build Smart Forms Faster</h1>
+  <p>
+    A modern, enterprise-grade form builder inspired by Google Forms.
+    Designed for speed, accessibility, and mobile-first UX.
+  </p>
 
   <div class="hero-actions">
-    <a href="builder.html" class="btn primary">Build a Form</a>
-    <a href="form.html" class="btn">View Public Form</a>
-    <a href="analytics.html" class="btn">View Analytics</a>
-    <select id="roleSelect">
-  <option value="admin">Admin (Builder)</option>
-  <option value="viewer">Viewer (Form Only)</option>
-</select>
+    <a href="builder.html" class="btn primary">Start Building</a>
+    <button id="demoBtn2" class="btn">View Demo</button>
   </div>
 </section>
 
-<section class="features">
-  <div class="feature">Drag & Drop Builder</div>
-  <div class="feature">Conditional Logic</div>
-  <div class="feature">Live Preview</div>
-  <div class="feature">Analytics Dashboard</div>
-  <div class="feature">Export CSV</div>
-  <div class="feature">Mobile First</div>
-</section>
-
+<!-- Footer -->
 <footer class="footer">
-  <p>© 2025 Sayedrahim Sadat</p>
+  <p>© 2025 Smart Form Builder • Portfolio Project</p>
 </footer>
 
+<!-- Scripts -->
 <script>
-document.getElementById("roleSelect").onchange = e => {
+/* Role Selection */
+const roleSelect = document.getElementById("roleSelect");
+roleSelect.value = localStorage.getItem("role") || "admin";
+
+roleSelect.onchange = e => {
   localStorage.setItem("role", e.target.value);
 };
 
-document.getElementById("roleSelect").value =
-  localStorage.getItem("role") || "admin";
+/* Demo Mode */
+function loadDemo() {
+  const demoForm = [
+    { id: 1, type: "text", label: "Full Name", required: true },
+    { id: 2, type: "email", label: "Email Address", required: true },
+    { id: 3, type: "number", label: "Years of Experience", required: false },
+    { id: 4, type: "rating", label: "Rate our product", required: false }
+  ];
+
+  const demoResponses = [
+    {
+      date: new Date(),
+      data: {
+        "Full Name": "John Doe",
+        "Email Address": "john@example.com",
+        "Years of Experience": "5",
+        "Rate our product": "5"
+      }
+    },
+    {
+      date: new Date(),
+      data: {
+        "Full Name": "Sarah Smith",
+        "Email Address": "sarah@example.com",
+        "Years of Experience": "2",
+        "Rate our product": "4"
+      }
+    }
+  ];
+
+  localStorage.setItem("smartForm", JSON.stringify(demoForm));
+  localStorage.setItem("responses", JSON.stringify(demoResponses));
+  window.location.href = "builder.html";
+}
+
+document.getElementById("demoBtn").onclick = loadDemo;
+document.getElementById("demoBtn2").onclick = loadDemo;
+
+/* Offline Detection */
+function updateOnlineStatus() {
+  document.body.classList.toggle("offline", !navigator.onLine);
+}
+window.addEventListener("online", updateOnlineStatus);
+window.addEventListener("offline", updateOnlineStatus);
+updateOnlineStatus();
 </script>
 
 </body>
