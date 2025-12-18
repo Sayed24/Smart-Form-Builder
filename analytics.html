@@ -1,37 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Form Analytics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics • SmartForm</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
 </head>
 <body>
 
+<!-- Header -->
 <header class="app-header">
-  <div class="header-left">
-    <a href="index.html" class="logo">SmartForm</a>
-  </div>
+  <a href="index.html" class="logo">SmartForm</a>
 
   <button class="menu-toggle" id="menuToggle">☰</button>
 
   <nav class="header-nav" id="headerNav">
-    <button onclick="undo()">Undo</button>
-    <button onclick="redo()">Redo</button>
-    <a href="form.html">Preview</a>
-    <a href="analytics.html">Analytics</a>
+    <a href="builder.html">Builder</a>
+    <a href="form.html">Public Form</a>
   </nav>
 </header>
 
-<div class="builder">
-  <a href="index.html" class="logo">Smart Form Builder</a>
-  <p id="totalResponses"></p>
-  <button id="exportCSV">Export CSV</button>
-  <canvas id="chart"></canvas>
-</div>
+<!-- Page Content -->
+<main class="analytics-page">
+  <h2>Form Analytics</h2>
 
+  <div class="analytics-cards">
+    <div class="card">
+      <h3>Total Responses</h3>
+      <p id="responseCount">0</p>
+    </div>
+  </div>
+
+  <div id="analyticsDetails"></div>
+</main>
+
+<!-- Scripts -->
 <script src="js/analytics.js"></script>
+
+<script>
+/* Mobile Menu Toggle */
+document.getElementById("menuToggle").onclick = () => {
+  document.getElementById("headerNav").classList.toggle("open");
+};
+</script>
+
 </body>
 </html>
