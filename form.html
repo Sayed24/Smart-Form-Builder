@@ -6,8 +6,6 @@
   <title>Public Form • SmartForm</title>
 
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#2563eb" />
 </head>
 <body>
 
@@ -18,26 +16,43 @@
   <button class="menu-toggle" id="menuToggle">☰</button>
 
   <nav class="header-nav" id="headerNav">
-    <a href="builder.html">Builder</a>
+    <a href="builder.html">Build</a>
     <a href="analytics.html">Analytics</a>
   </nav>
 </header>
 
-<!-- Page Content -->
+<!-- Form Container -->
 <main class="form-page">
-  <h2>Form</h2>
-  <form id="publicForm"></form>
+  <h2 id="formTitle">Public Form</h2>
+  <p class="muted" id="formHint"></p>
+
+  <div id="publicForm"></div>
+
+  <p class="local-note">
+    This is a demo form. Responses are stored locally.
+  </p>
 </main>
 
-<!-- Scripts -->
-<script src="js/form.js"></script>
-
+<!-- Mobile Menu -->
 <script>
-/* Mobile Menu Toggle */
-document.getElementById("menuToggle").onclick = () => {
-  document.getElementById("headerNav").classList.toggle("open");
-};
+  document.getElementById("menuToggle").onclick = () => {
+    document.getElementById("headerNav").classList.toggle("open");
+  };
 </script>
+
+<!-- Shareable Link Logic -->
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const formId = params.get("formId");
+
+  if (formId) {
+    document.getElementById("formTitle").textContent = "Shared Form";
+    document.getElementById("formHint").textContent =
+      "Opened via shareable link (simulated).";
+  }
+</script>
+
+<script src="js/form.js"></script>
 
 </body>
 </html>
