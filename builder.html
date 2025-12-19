@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<!-- Header -->
+<!-- ================= HEADER ================= -->
 <header class="app-header">
   <a href="index.html" class="logo">SmartForm</a>
 
@@ -17,51 +17,51 @@
 
   <nav class="header-nav" id="headerNav">
     <a href="index.html">Home</a>
-    <a href="form.html">Preview</a>
     <a href="analytics.html">Analytics</a>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
   </nav>
 </header>
 
-<!-- Builder Layout -->
-<main class="builder-layout">
+<!-- ================= BUILDER ================= -->
+<main>
+  <h2 style="margin-bottom: 1rem;">Form Builder</h2>
 
-  <!-- Toolbox -->
-  <aside class="toolbox">
-    <button class="btn" onclick="addField('text')">Text</button>
-    <button class="btn" onclick="addField('textarea')">Paragraph</button>
-    <button class="btn" onclick="addField('select')">Dropdown</button>
-    <button class="btn" onclick="addField('checkbox')">Checkbox</button>
-  </aside>
+  <div class="builder-layout">
 
-  <!-- Canvas -->
-  <section class="canvas">
-    <h2>Build Your Form</h2>
-    <div id="formCanvas"></div>
-  </section>
+    <!-- Sidebar -->
+    <aside class="builder-sidebar">
+      <h3>Add Field</h3>
 
-  <!-- Settings -->
-  <aside class="settings">
-    <h3>Field Settings</h3>
-    <div id="fieldSettings">
-      <p class="muted">Select a field to edit settings.</p>
-    </div>
-  </aside>
+      <button onclick="addField('text')">Text Input</button>
+      <button onclick="addField('textarea')" style="margin-top:0.5rem;">Textarea</button>
+      <button onclick="addField('select')" style="margin-top:0.5rem;">Dropdown</button>
+      <button onclick="addField('checkbox')" style="margin-top:0.5rem;">Checkbox</button>
 
+      <hr style="margin:1rem 0;">
+
+      <button class="secondary" onclick="saveForm()">Save Form</button>
+    </aside>
+
+    <!-- Canvas -->
+    <section class="builder-canvas">
+      <h3>Form Preview</h3>
+      <div id="formFields"></div>
+    </section>
+
+  </div>
 </main>
 
-<!-- Mobile Menu Script -->
+<!-- ================= MOBILE NAV ================= -->
 <script>
   document.getElementById("menuToggle").onclick = () => {
     document.getElementById("headerNav").classList.toggle("open");
   };
 </script>
 
-<script src="js/builder.js"></script>  
+<!-- ================= SCRIPTS ================= -->
 <script src="js/roles.js"></script>
 <script>requireAdmin();</script>
-  <script src="js/roles.js"></script>
-<script>requireAdmin();</script>
-  
-  
+<script src="js/builder.js"></script>
+
 </body>
 </html>
