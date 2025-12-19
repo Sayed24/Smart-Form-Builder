@@ -1,98 +1,80 @@
-/* =====================================================
-   SMARTFORM ANALYTICS — ENTERPRISE
-===================================================== */
+/* =====================================
+   SMARTFORM ANALYTICS
+   Charts • Metrics • Export
+===================================== */
 
+/* ---------- LOAD DATA ---------- */
 const responses =
-  JSON.parse(localStorage.getItem("smartform_responses")) || [];
+  JSON.parse(localStorage.getItem("smartform_responses")) || {};
 
-const responseCountEl = document.getElementById("responseCount");
-const analyticsDetails = document.getElementById("analyticsDetails");
+const activeFormId =
+  localStorage.getItem("active_form") || "default";
 
-/* -----------------------------
-   BASIC METRICS
------------------------------ */
-responseCountEl.textContent = responses.length;
+const formResponses = responses[activeFormId] || [];
 
-/* -----------------------------
-   CHART DATA
------------------------------ */
-const dates = responses.map(r =>
-  new Date(r.date).toLocaleDateString()
-);
+/* ---------- TOTAL RESPONSES ---------- */
+const totalEl = document.getElementById("totalResponses");
+totalEl.textContent = formResponses.length;
 
-const countsByDate = {};
-dates.forEach(d => {
-  countsByDate[d] = (countsByDate[d] || 0) + 1;
+/* ---------- TIMELINE DATA ---------- */
+const dateCounts = {};
+
+formResponses.forEach(r => {
+  const date = r.date.split("T")[0];
+  dateCounts[date] = (dateCounts[date] || 0) + 1;
 });
 
-/* -----------------------------
-   RENDER CHART
------------------------------ */
-const ctx = document.getElementById("responseChart");
+const labels = Object.keys(dateCounts);
+const data = Object.values(dateCounts);
 
-if (ctx) {
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: Object.keys(countsByDate),
-      datasets: [{
+/* ---------- CHART ---------- */
+const ctx = document.getElementById("responsesChart").getContext("2d");
+
+new Chart(ctx, {
+  type: "line",
+  data: {
+    labels,
+    datasets: [
+      {
         label: "Responses",
-        data: Object.values(countsByDate),
-        borderWidth: 2,
+        data,
+        fill: false,
         tension: 0.3
-      }]
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false }
     },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false }
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { precision: 0 }
       }
     }
-  });
-}
+  }
+});
 
-/* -----------------------------
-   RESPONSE DETAILS
------------------------------ */
-if (!responses.length) {
-  analyticsDetails.innerHTML =
-    "<p class='muted'>No responses yet.</p>";
-} else {
-  responses.forEach((res, index) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.style.marginTop = "16px";
-
-    card.innerHTML = `
-      <h4>Response #${index + 1}</h4>
-      <p class="muted">${new Date(res.date).toLocaleString()}</p>
-    `;
-
-    Object.values(res.data).forEach(value => {
-      const p = document.createElement("p");
-      p.textContent = `• ${value}`;
-      card.appendChild(p);
-    });
-
-    analyticsDetails.appendChild(card);
-  });
-}
-
-/* -----------------------------
-   CSV EXPORT
------------------------------ */
-document.getElementById("exportCsv").onclick = () => {
-  if (!responses.length) {
-    alert("No data to export");
+/* ---------- CSV EXPORT ---------- */
+function exportCSV() {
+  if (!formResponses.length) {
+    alert("No responses to export");
     return;
   }
 
-  let csv = "Date,Response\n";
+  const headers = Object.keys(formResponses[0].data);
+  let csv = "Date," + headers.join(",") + "\n";
 
-  responses.forEach(r => {
-    Object.values(r.data).forEach(value => {
-      csv += `"${r.date}","${value}"\n`;
-    });
+  formResponses.forEach(r => {
+    const row = [
+      r.date,
+      ...headers.map(h =>
+        `"${String(r.data[h]).replace(/"/g, '""')}"`
+      )
+    ];
+    csv += row.join(",") + "\n";
   });
 
   const blob = new Blob([csv], { type: "text/csv" });
@@ -104,4 +86,4 @@ document.getElementById("exportCsv").onclick = () => {
   a.click();
 
   URL.revokeObjectURL(url);
-};
+}
