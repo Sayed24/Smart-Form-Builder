@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartForm — Modern Form Builder</title>
+  <title>SmartForm • Modern Form Builder</title>
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<!-- Header -->
+<!-- ================= HEADER ================= -->
 <header class="app-header">
   <a href="index.html" class="logo">SmartForm</a>
 
@@ -17,49 +17,46 @@
 
   <nav class="header-nav" id="headerNav">
     <a href="builder.html">Build</a>
-    <a href="form.html">Demo Form</a>
     <a href="analytics.html">Analytics</a>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
   </nav>
 </header>
 
-<!-- Hero -->
-<section class="hero">
-  <h1>Build Smart Forms. Instantly.</h1>
-  <p>
-    A modern, mobile-first form builder with drag-and-drop,
-    live preview, analytics, and shareable links.
-  </p>
+<!-- ================= HERO ================= -->
+<main>
+  <section class="hero">
+    <h1>Build Smart Forms, Fast</h1>
+    <p>
+      A modern, mobile-first form builder inspired by Google Forms.
+      Designed as a real-world SaaS portfolio project.
+    </p>
 
-  <div class="hero-actions">
-    <a href="builder.html" class="btn primary">Start Building</a>
-    <a href="form.html" class="btn">View Demo</a>
-  </div>
-</section>
+    <a href="login.html" class="btn-primary">Get Started</a>
+  </section>
 
-<!-- Features -->
-<section class="hero">
-  <h2>Why SmartForm?</h2>
-  <p>Designed to feel like a real SaaS product.</p>
+  <!-- ================= FEATURES ================= -->
+  <section class="card">
+    <h2>Why SmartForm?</h2>
 
-  <div class="hero-actions">
-    <div class="card">📱 Mobile-first UX</div>
-    <div class="card">🧠 Conditional Logic Ready</div>
-    <div class="card">📊 Built-in Analytics</div>
-    <div class="card">🔒 Admin-Only Builder</div>
-  </div>
-</section>
+    <ul style="margin-top: 1rem; line-height: 1.8;">
+      <li>✅ Drag-and-drop form builder</li>
+      <li>✅ Conditional logic & live preview</li>
+      <li>✅ Shareable public forms</li>
+      <li>✅ Analytics dashboard</li>
+      <li>✅ Role-based access (Admin / Viewer)</li>
+      <li>✅ Mobile-first & dark mode</li>
+    </ul>
+  </section>
+</main>
 
-<!-- Footer -->
-<footer class="footer">
-  <p>Built by Sayedrahim Sadat • Portfolio Project</p>
-</footer>
-
-<!-- Mobile Menu -->
+<!-- ================= MOBILE NAV SCRIPT ================= -->
 <script>
   document.getElementById("menuToggle").onclick = () => {
     document.getElementById("headerNav").classList.toggle("open");
   };
 </script>
+
+<script src="js/roles.js"></script>
 
 </body>
 </html>
