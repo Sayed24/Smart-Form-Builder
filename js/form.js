@@ -1,28 +1,39 @@
-/* =========================
-   SMART FORM
-   Public Form Logic
-========================= */
+/* =====================================
+   SMARTFORM PUBLIC FORM RENDERER
+   Portfolio / Interview Version
+===================================== */
+
+/* ---------- LOAD FORM ---------- */
+const params = new URLSearchParams(window.location.search);
+const formId = params.get("formId") || "default";
+
+const forms =
+  JSON.parse(localStorage.getItem("smartform_forms")) || {};
+
+const form = forms[formId];
 
 const formContainer = document.getElementById("publicForm");
+const submitBtn = document.getElementById("submitBtn");
+const titleEl = document.getElementById("formTitle");
 
-const fields = JSON.parse(localStorage.getItem("smartform_fields")) || [];
+if (!form) {
+  formContainer.innerHTML = "<p>Form not found.</p>";
+  submitBtn.style.display = "none";
+  throw new Error("Form not found");
+}
 
-/* =========================
-   RENDER FORM
-========================= */
+titleEl.textContent = form.title || "Public Form";
+
+/* ---------- RENDER FIELDS ---------- */
 function renderForm() {
-  if (!fields.length) {
-    formContainer.innerHTML = "<p>No form fields created yet.</p>";
-    return;
-  }
+  formContainer.innerHTML = "";
 
-  const form = document.createElement("form");
-
-  fields.forEach(field => {
-    const wrap = document.createElement("div");
+  form.fields.forEach((field, index) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "form-group";
 
     const label = document.createElement("label");
-    label.textContent = field.label;
+    label.textContent = field.label + (field.required ? " *" : "");
 
     let input;
 
@@ -39,9 +50,10 @@ function renderForm() {
       case "select":
         input = document.createElement("select");
         field.options.forEach(opt => {
-          const o = document.createElement("option");
-          o.textContent = opt;
-          input.appendChild(o);
+          const option = document.createElement("option");
+          option.value = opt;
+          option.textContent = opt;
+          input.appendChild(option);
         });
         break;
 
@@ -49,59 +61,63 @@ function renderForm() {
         input = document.createElement("input");
         input.type = "checkbox";
         break;
+
+      default:
+        return;
     }
 
-    if (field.required) input.required = true;
+    input.dataset.required = field.required;
+    input.dataset.label = field.label;
 
-    wrap.append(label, input);
-    form.appendChild(wrap);
+    wrapper.appendChild(label);
+    wrapper.appendChild(input);
+    formContainer.appendChild(wrapper);
   });
-
-  const submit = document.createElement("button");
-  submit.className = "btn primary";
-  submit.textContent = "Submit";
-  form.appendChild(submit);
-
-  form.onsubmit = saveResponse;
-
-  formContainer.appendChild(form);
 }
 
-/* =========================
-   SAVE RESPONSE
-========================= */
-function saveResponse(e) {
-  e.preventDefault();
+/* ---------- SUBMIT ---------- */
+submitBtn.addEventListener("click", () => {
+  const inputs = formContainer.querySelectorAll("input, textarea, select");
+  const response = {};
+  let valid = true;
 
-  const data = {};
-  const inputs = e.target.querySelectorAll("input, textarea, select");
+  inputs.forEach(input => {
+    const required = input.dataset.required === "true";
+    const label = input.dataset.label;
 
-  inputs.forEach((input, i) => {
-    if (input.type === "checkbox") {
-      data[i] = input.checked;
+    let value =
+      input.type === "checkbox" ? input.checked : input.value.trim();
+
+    if (required && !value) {
+      valid = false;
+      input.style.borderColor = "red";
     } else {
-      data[i] = input.value;
+      input.style.borderColor = "";
     }
+
+    response[label] = value;
   });
+
+  if (!valid) {
+    alert("Please fill all required fields.");
+    return;
+  }
 
   const responses =
-    JSON.parse(localStorage.getItem("smartform_responses")) || [];
+    JSON.parse(localStorage.getItem("smartform_responses")) || {};
 
-  responses.push({
+  if (!responses[formId]) responses[formId] = [];
+
+  responses[formId].push({
     date: new Date().toISOString(),
-    data
+    data: response
   });
 
-  localStorage.setItem(
-    "smartform_responses",
-    JSON.stringify(responses)
-  );
+  localStorage.setItem("smartform_responses", JSON.stringify(responses));
 
-  alert("Response submitted!");
-  e.target.reset();
-}
+  alert("Form submitted successfully!");
+  formContainer.reset?.();
+});
 
-/* =========================
-   INIT
-========================= */
+/* ---------- INIT ---------- */
 renderForm();
