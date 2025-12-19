@@ -6,66 +6,58 @@
   <title>Analytics • SmartForm</title>
 
   <link rel="stylesheet" href="css/style.css" />
-
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<!-- Header -->
+<!-- ================= HEADER ================= -->
 <header class="app-header">
   <a href="index.html" class="logo">SmartForm</a>
 
   <button class="menu-toggle" id="menuToggle">☰</button>
 
   <nav class="header-nav" id="headerNav">
-    <a href="builder.html">Builder</a>
-    <a href="form.html">Public Form</a>
+    <a href="index.html">Home</a>
+    <a href="builder.html">Build</a>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
   </nav>
 </header>
 
-<!-- Analytics Page -->
-<main class="analytics-page">
-  <h2>Form Analytics</h2>
-  <p class="muted">Visual insights from submitted responses</p>
+<!-- ================= ANALYTICS ================= -->
+<main>
+  <h2 style="margin-bottom:1rem;">Analytics Dashboard</h2>
 
-  <!-- Stats -->
-  <div class="analytics-cards">
-    <div class="card">
-      <h3>Total Responses</h3>
-      <p id="responseCount">0</p>
+  <div class="analytics-grid">
+
+    <div class="card stat">
+      <h3 id="totalResponses">0</h3>
+      <p>Total Responses</p>
     </div>
-  </div>
 
-  <!-- Chart -->
-  <div class="card">
-    <h3>Responses Over Time</h3>
-    <canvas id="responseChart"></canvas>
-  </div>
+    <div class="card">
+      <h3>Responses Timeline</h3>
+      <canvas id="responsesChart" height="200"></canvas>
+    </div>
 
-  <!-- Export -->
-  <div class="card">
-    <h3>Export Data</h3>
-    <button class="btn primary full" id="exportCsv">
-      Download CSV
-    </button>
-  </div>
+    <div class="card">
+      <h3>Export Data</h3>
+      <button onclick="exportCSV()">Download CSV</button>
+    </div>
 
-  <!-- Details -->
-  <div id="analyticsDetails"></div>
+  </div>
 </main>
 
-<!-- Mobile Menu -->
+<!-- ================= MOBILE NAV ================= -->
 <script>
   document.getElementById("menuToggle").onclick = () => {
     document.getElementById("headerNav").classList.toggle("open");
   };
 </script>
 
-<script src="js/analytics.js"></script>
+<!-- ================= SCRIPTS ================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/roles.js"></script>
 <script>requireAdmin();</script>
-  <script src="js/roles.js"></script>
-<script>requireAdmin();</script>
+<script src="js/analytics.js"></script>
+
 </body>
 </html>
