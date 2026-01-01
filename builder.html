@@ -1,36 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Builder</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Builder</title>
+<link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
 <header>
-  <a href="index.html">SmartForm</a>
-  <a href="form.html">Preview</a>
+  <h1 onclick="location.href='index.html'">SmartForm</h1>
 </header>
 
-<main class="builder">
-
-  <div class="card">
-    <h3>Add Field</h3>
+<main>
+  <div class="toolbar">
     <button onclick="addField('text')">Text</button>
-    <button onclick="addField('textarea')">Textarea</button>
+    <button onclick="addField('email')">Email</button>
     <button onclick="addField('select')">Dropdown</button>
-    <button onclick="saveForm()" class="secondary">Save</button>
+    <button onclick="addField('checkbox')">Checkbox</button>
   </div>
 
-  <div class="card">
-    <h3>Form Fields</h3>
-    <div id="fields"></div>
-  </div>
+  <ul id="builder" class="builder"></ul>
 
+  <button onclick="saveForm()">Save Form</button>
 </main>
 
-<script src="js/app.js"></script>
 <script src="js/builder.js"></script>
 </body>
 </html>
