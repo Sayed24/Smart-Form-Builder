@@ -1,36 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Form Builder</title>
-<link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8">
+<title>Builder • SmartForm</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body onload="requireAuth()">
 
 <header class="topbar">
-  <span class="logo" onclick="location.href='index.html'">SmartForm</span>
+  <h1 onclick="location.href='index.html'">SmartForm</h1>
+  <button onclick="save()">Save</button>
 </header>
 
-<main class="container narrow">
+<div class="builder">
+  <div id="canvas"></div>
 
-  <div class="builder-header">
-    <input id="formTitle" placeholder="Untitled form" />
-    <input id="formDesc" placeholder="Form description" />
-  </div>
+  <aside>
+    <button onclick="add('text')">Text</button>
+    <button onclick="add('email')">Email</button>
+    <button onclick="add('select')">Dropdown</button>
+  </aside>
+</div>
 
-  <ul id="fields" class="field-list"></ul>
-
-  <div class="add-panel">
-    <button onclick="addField('text')">Text</button>
-    <button onclick="addField('email')">Email</button>
-    <button onclick="addField('textarea')">Paragraph</button>
-    <button onclick="addField('select')">Dropdown</button>
-  </div>
-
-  <button class="primary" onclick="saveForm()">Save & Preview</button>
-</main>
-
+<script src="js/auth.js"></script>
 <script src="js/builder.js"></script>
 </body>
 </html>
