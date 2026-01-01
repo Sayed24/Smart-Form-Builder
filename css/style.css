@@ -1,140 +1,47 @@
-/* =========================
-   RESET & BASE
-========================= */
+/* RESET */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body {
   background: #f8fafc;
   color: #0f172a;
-  line-height: 1.6;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* =========================
-   HEADER
-========================= */
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.9rem 1.2rem;
+/* HEADER */
+header {
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #2563eb;
-}
-
-.header-nav {
+  padding: 1rem;
   display: flex;
-  gap: 1rem;
-}
-
-.header-nav a {
-  font-weight: 500;
-  color: #334155;
-}
-
-.menu-toggle {
-  display: none;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-}
-
-.theme-toggle {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-/* =========================
-   MOBILE NAV
-========================= */
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-
-  .header-nav {
-    position: absolute;
-    top: 60px;
-    right: 0;
-    background: #ffffff;
-    flex-direction: column;
-    width: 100%;
-    padding: 1rem;
-    display: none;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .header-nav.open {
-    display: flex;
-  }
-}
-
-/* =========================
-   LAYOUT
-========================= */
-main {
-  padding: 1.2rem;
-}
-
-.centered {
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  min-height: 100vh;
 }
 
-/* =========================
-   CARDS
-========================= */
-.card {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  border: 1px solid #e5e7eb;
+header a {
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: 700;
 }
 
-.card + .card {
-  margin-top: 1rem;
+/* LAYOUT */
+main {
+  padding: 1rem;
+  max-width: 900px;
+  margin: auto;
 }
 
-.auth-card {
-  width: 100%;
-  max-width: 360px;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-button,
-.btn-primary {
+/* BUTTONS */
+button {
   background: #2563eb;
-  color: #ffffff;
+  color: white;
   border: none;
-  padding: 0.7rem 1rem;
-  border-radius: 8px;
-  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  text-align: center;
 }
 
 button.secondary {
@@ -142,174 +49,45 @@ button.secondary {
   color: #0f172a;
 }
 
-button:disabled {
-  opacity: 0.6;
-}
-
-/* =========================
-   INPUTS (PERFECT SIZE)
-========================= */
-input,
-textarea,
-select {
+/* INPUTS */
+input, textarea, select {
   width: 100%;
-  max-width: 100%;
-  padding: 0.7rem;
-  border-radius: 8px;
-  border: 1px solid #cbd5f5;
-  font-size: 1rem;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
 }
 
 textarea {
-  min-height: 100px;
+  min-height: 90px;
 }
 
-label {
-  font-weight: 600;
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-.form-group {
+/* CARDS */
+.card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
   margin-bottom: 1rem;
 }
 
-/* =========================
-   LANDING PAGE
-========================= */
-.hero {
-  text-align: center;
-  padding: 3rem 1rem;
-}
-
-.hero h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.hero p {
-  color: #64748b;
-  margin-bottom: 1.2rem;
-}
-
-/* =========================
-   BUILDER
-========================= */
-.builder-layout {
+/* BUILDER */
+.builder {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 1rem;
 }
 
-.builder-sidebar {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 1rem;
+.field {
+  border: 1px dashed #cbd5e1;
+  padding: 0.7rem;
+  border-radius: 6px;
+  margin-bottom: 0.6rem;
 }
 
-.builder-canvas {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 1rem;
-}
-
-.field-item {
-  padding: 0.8rem;
-  border: 1px dashed #cbd5f5;
-  border-radius: 8px;
-  margin-bottom: 0.7rem;
-  background: #f8fafc;
-  cursor: grab;
-}
-
-/* =========================
-   MOBILE BUILDER
-========================= */
+/* MOBILE */
 @media (max-width: 768px) {
-  .builder-layout {
+  .builder {
     grid-template-columns: 1fr;
   }
-}
-
-/* =========================
-   PUBLIC FORM
-========================= */
-.form-page {
-  max-width: 640px;
-  margin: auto;
-  padding: 1.2rem;
-}
-
-.form-page h2 {
-  margin-bottom: 0.4rem;
-}
-
-.muted {
-  color: #64748b;
-  font-size: 0.9rem;
-}
-
-.local-note {
-  margin-top: 1rem;
-  font-size: 0.8rem;
-  opacity: 0.6;
-}
-
-/* =========================
-   ANALYTICS
-========================= */
-.analytics-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.stat {
-  text-align: center;
-}
-
-.stat h3 {
-  font-size: 2rem;
-  color: #2563eb;
-}
-
-.chart-box {
-  background: #ffffff;
-  padding: 1rem;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-}
-
-/* =========================
-   DARK MODE
-========================= */
-body.dark {
-  background: #020617;
-  color: #e5e7eb;
-}
-
-body.dark .app-header,
-body.dark .card,
-body.dark .builder-sidebar,
-body.dark .builder-canvas,
-body.dark .chart-box {
-  background: #020617;
-  border-color: #1e293b;
-}
-
-body.dark input,
-body.dark textarea,
-body.dark select {
-  background: #020617;
-  color: #e5e7eb;
-  border-color: #1e293b;
-}
-
-body.dark .header-nav {
-  background: #020617;
-}
-
-body.dark a {
-  color: #7dd3fc;
 }
