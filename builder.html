@@ -1,67 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Form Builder • SmartForm</title>
-
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Builder</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- ================= HEADER ================= -->
-<header class="app-header">
-  <a href="index.html" class="logo">SmartForm</a>
-
-  <button class="menu-toggle" id="menuToggle">☰</button>
-
-  <nav class="header-nav" id="headerNav">
-    <a href="index.html">Home</a>
-    <a href="analytics.html">Analytics</a>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
-  </nav>
+<header>
+  <a href="index.html">SmartForm</a>
+  <a href="form.html">Preview</a>
 </header>
 
-<!-- ================= BUILDER ================= -->
-<main>
-  <h2 style="margin-bottom: 1rem;">Form Builder</h2>
+<main class="builder">
 
-  <div class="builder-layout">
-
-    <!-- Sidebar -->
-    <aside class="builder-sidebar">
-      <h3>Add Field</h3>
-
-      <button onclick="addField('text')">Text Input</button>
-      <button onclick="addField('textarea')" style="margin-top:0.5rem;">Textarea</button>
-      <button onclick="addField('select')" style="margin-top:0.5rem;">Dropdown</button>
-      <button onclick="addField('checkbox')" style="margin-top:0.5rem;">Checkbox</button>
-
-      <hr style="margin:1rem 0;">
-
-      <button class="secondary" onclick="saveForm()">Save Form</button>
-    </aside>
-
-    <!-- Canvas -->
-    <section class="builder-canvas">
-      <h3>Form Preview</h3>
-      <div id="formFields"></div>
-    </section>
-
+  <div class="card">
+    <h3>Add Field</h3>
+    <button onclick="addField('text')">Text</button>
+    <button onclick="addField('textarea')">Textarea</button>
+    <button onclick="addField('select')">Dropdown</button>
+    <button onclick="saveForm()" class="secondary">Save</button>
   </div>
+
+  <div class="card">
+    <h3>Form Fields</h3>
+    <div id="fields"></div>
+  </div>
+
 </main>
 
-<!-- ================= MOBILE NAV ================= -->
-<script>
-  document.getElementById("menuToggle").onclick = () => {
-    document.getElementById("headerNav").classList.toggle("open");
-  };
-</script>
-
-<!-- ================= SCRIPTS ================= -->
-<script src="js/roles.js"></script>
-<script>requireAdmin();</script>
+<script src="js/app.js"></script>
 <script src="js/builder.js"></script>
-
 </body>
 </html>
