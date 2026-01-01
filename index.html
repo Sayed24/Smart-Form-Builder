@@ -1,62 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartForm • Modern Form Builder</title>
-
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartForm</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- ================= HEADER ================= -->
-<header class="app-header">
-  <a href="index.html" class="logo">SmartForm</a>
-
-  <button class="menu-toggle" id="menuToggle">☰</button>
-
-  <nav class="header-nav" id="headerNav">
-    <a href="builder.html">Build</a>
+<header>
+  <a href="index.html">SmartForm</a>
+  <nav>
+    <a href="builder.html">Builder</a>
     <a href="analytics.html">Analytics</a>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
   </nav>
 </header>
 
-<!-- ================= HERO ================= -->
 <main>
-  <section class="hero">
-    <h1>Build Smart Forms, Fast</h1>
-    <p>
-      A modern, mobile-first form builder inspired by Google Forms.
-      Designed as a real-world SaaS portfolio project.
-    </p>
-
-    <a href="login.html" class="btn-primary">Get Started</a>
-  </section>
-
-  <!-- ================= FEATURES ================= -->
-  <section class="card">
-    <h2>Why SmartForm?</h2>
-
-    <ul style="margin-top: 1rem; line-height: 1.8;">
-      <li>✅ Drag-and-drop form builder</li>
-      <li>✅ Conditional logic & live preview</li>
-      <li>✅ Shareable public forms</li>
-      <li>✅ Analytics dashboard</li>
-      <li>✅ Role-based access (Admin / Viewer)</li>
-      <li>✅ Mobile-first & dark mode</li>
-    </ul>
-  </section>
+  <div class="card">
+    <h1>Smart Form Builder</h1>
+    <p>A modern Google-Forms-like app built with pure JavaScript.</p>
+    <br>
+    <a href="builder.html"><button>Create a Form</button></a>
+  </div>
 </main>
-
-<!-- ================= MOBILE NAV SCRIPT ================= -->
-<script>
-  document.getElementById("menuToggle").onclick = () => {
-    document.getElementById("headerNav").classList.toggle("open");
-  };
-</script>
-
-<script src="js/roles.js"></script>
 
 </body>
 </html>
