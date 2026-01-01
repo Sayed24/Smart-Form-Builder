@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartForm</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
 <header>
-  <a href="index.html">SmartForm</a>
-  <nav>
-    <a href="builder.html">Builder</a>
-    <a href="analytics.html">Analytics</a>
-  </nav>
+  <h1 onclick="location.href='index.html'">SmartForm</h1>
+  <button id="darkToggle">🌙</button>
 </header>
 
 <main>
-  <div class="card">
-    <h1>Smart Form Builder</h1>
-    <p>A modern Google-Forms-like app built with pure JavaScript.</p>
-    <br>
-    <a href="builder.html"><button>Create a Form</button></a>
-  </div>
+  <section>
+    <h2>Your Forms</h2>
+    <button onclick="createForm()">➕ New Form</button>
+    <ul id="formList"></ul>
+  </section>
 </main>
 
+<script src="js/app.js"></script>
 </body>
 </html>
