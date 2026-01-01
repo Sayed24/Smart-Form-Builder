@@ -1,17 +1,15 @@
-const form = document.getElementById("form");
-const fields = getForm();
+const formEl = document.getElementById("form");
+const forms = JSON.parse(localStorage.getItem("forms"));
+const index = localStorage.getItem("activeForm");
+const fields = forms[index].fields;
 
 fields.forEach(f => {
   const div = document.createElement("div");
   div.innerHTML = `
     <label>${f.label}</label>
-    ${f.type === "textarea"
-      ? "<textarea></textarea>"
-      : f.type === "select"
-      ? "<select><option>Option</option></select>"
-      : "<input type='text'>"}
+    <input />
   `;
-  form.appendChild(div);
+  formEl.appendChild(div);
 });
 
 function submitForm() {
