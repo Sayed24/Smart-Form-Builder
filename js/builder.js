@@ -1,32 +1,38 @@
-const builder = document.getElementById("builder");
-let forms = JSON.parse(localStorage.getItem("forms"));
-let index = localStorage.getItem("activeForm");
-let fields = forms[index].fields;
+const forms = JSON.parse(localStorage.getItem("forms"));
+const index = localStorage.getItem("activeForm");
+const form = forms[index];
+
+document.getElementById("formTitle").value = form.title;
+document.getElementById("formDesc").value = form.desc;
+
+const list = document.getElementById("fields");
 
 function render() {
-  builder.innerHTML = "";
-  fields.forEach((f, i) => {
+  list.innerHTML = "";
+  form.fields.forEach((f, i) => {
     const li = document.createElement("li");
+    li.className = "field";
     li.draggable = true;
-    li.textContent = f.label;
+    li.innerHTML = `<strong>${f.label}</strong>`;
     li.ondragstart = e => e.dataTransfer.setData("i", i);
     li.ondragover = e => e.preventDefault();
     li.ondrop = e => {
       const from = e.dataTransfer.getData("i");
-      fields.splice(i, 0, fields.splice(from, 1)[0]);
+      form.fields.splice(i, 0, form.fields.splice(from, 1)[0]);
       render();
     };
-    builder.appendChild(li);
+    list.appendChild(li);
   });
 }
 
 function addField(type) {
-  fields.push({ type, label: type.toUpperCase() });
+  form.fields.push({ type, label: "Question" });
   render();
 }
 
 function saveForm() {
-  forms[index].fields = fields;
+  form.title = document.getElementById("formTitle").value;
+  form.desc = document.getElementById("formDesc").value;
   localStorage.setItem("forms", JSON.stringify(forms));
   location.href = "form.html";
 }
