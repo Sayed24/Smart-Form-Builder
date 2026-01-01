@@ -2,27 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Builder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Form Builder</title>
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<header>
-  <h1 onclick="location.href='index.html'">SmartForm</h1>
+<header class="topbar">
+  <span class="logo" onclick="location.href='index.html'">SmartForm</span>
 </header>
 
-<main>
-  <div class="toolbar">
-    <button onclick="addField('text')">Text</button>
-    <button onclick="addField('email')">Email</button>
-    <button onclick="addField('select')">Dropdown</button>
-    <button onclick="addField('checkbox')">Checkbox</button>
+<main class="container narrow">
+
+  <div class="builder-header">
+    <input id="formTitle" placeholder="Untitled form" />
+    <input id="formDesc" placeholder="Form description" />
   </div>
 
-  <ul id="builder" class="builder"></ul>
+  <ul id="fields" class="field-list"></ul>
 
-  <button onclick="saveForm()">Save Form</button>
+  <div class="add-panel">
+    <button onclick="addField('text')">Text</button>
+    <button onclick="addField('email')">Email</button>
+    <button onclick="addField('textarea')">Paragraph</button>
+    <button onclick="addField('select')">Dropdown</button>
+  </div>
+
+  <button class="primary" onclick="saveForm()">Save & Preview</button>
 </main>
 
 <script src="js/builder.js"></script>
