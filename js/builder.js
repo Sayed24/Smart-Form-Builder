@@ -1,40 +1,75 @@
+const id = new URLSearchParams(location.search).get("id");
 const forms = JSON.parse(localStorage.getItem("forms"));
-const index = localStorage.getItem("activeForm");
-const form = forms[index];
+const form = forms[id];
+const canvas = document.getElementById("canvas");
 
-document.getElementById("formTitle").value = form.title;
-document.getElementById("formDesc").value = form.desc;
+let dragIndex = null;
 
-const list = document.getElementById("fields");
+function draw(){
+  canvas.innerHTML = "";
+  form.questions.forEach((q,i)=>{
+    const div = document.createElement("div");
+    div.className = "card";
+    div.draggable = true;
 
-function render() {
-  list.innerHTML = "";
-  form.fields.forEach((f, i) => {
-    const li = document.createElement("li");
-    li.className = "field";
-    li.draggable = true;
-    li.innerHTML = `<strong>${f.label}</strong>`;
-    li.ondragstart = e => e.dataTransfer.setData("i", i);
-    li.ondragover = e => e.preventDefault();
-    li.ondrop = e => {
-      const from = e.dataTransfer.getData("i");
-      form.fields.splice(i, 0, form.fields.splice(from, 1)[0]);
-      render();
-    };
-    list.appendChild(li);
+    div.ondragstart = () => dragIndex = i;
+    div.ondragover = e => e.preventDefault();
+    div.ondrop = () => reorder(i);
+
+    div.innerHTML = `
+      <div class="drag">☰</div>
+      <input value="${q.label}" oninput="q.label=this.value">
+      
+      <label>
+        Required 
+        <input type="checkbox" ${q.required?"checked":""}
+        onchange="q.required=this.checked">
+      </label>
+
+      <select onchange="q.showIf=this.value">
+        <option value="">Always show</option>
+        ${form.questions.map((_,j)=>`
+          <option value="${j}" ${q.showIf==j?"selected":""}>
+            Show if Q${j+1} answered
+          </option>`).join("")}
+      </select>
+
+      <button onclick="dup(${i})">Duplicate</button>
+      <button onclick="del(${i})">Delete</button>
+    `;
+    canvas.appendChild(div);
   });
 }
 
-function addField(type) {
-  form.fields.push({ type, label: "Question" });
-  render();
+function reorder(target){
+  const moved = form.questions.splice(dragIndex,1)[0];
+  form.questions.splice(target,0,moved);
+  draw();
 }
 
-function saveForm() {
-  form.title = document.getElementById("formTitle").value;
-  form.desc = document.getElementById("formDesc").value;
+function add(type){
+  form.questions.push({
+    type,
+    label:"Question",
+    required:false,
+    showIf:""
+  });
+  draw();
+}
+
+function dup(i){
+  form.questions.splice(i+1,0,{...form.questions[i]});
+  draw();
+}
+
+function del(i){
+  form.questions.splice(i,1);
+  draw();
+}
+
+function save(){
   localStorage.setItem("forms", JSON.stringify(forms));
-  location.href = "form.html";
+  alert("Saved");
 }
 
-render();
+draw();
