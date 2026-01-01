@@ -98,3 +98,29 @@ input:focus, textarea:focus {
     padding: 1rem;
   }
 }
+.card {
+  background:#fff;
+  padding:14px;
+  border-radius:8px;
+  margin-bottom:12px;
+  box-shadow:0 1px 4px rgba(0,0,0,.1);
+}
+
+.drag {
+  cursor:grab;
+  font-size:18px;
+  margin-bottom:6px;
+  color:#888;
+}
+
+input, select {
+  width:100%;
+  margin:6px 0;
+  padding:8px;
+}
+
+@media(max-width:768px){
+  .builder {
+    flex-direction:column;
+  }
+}
