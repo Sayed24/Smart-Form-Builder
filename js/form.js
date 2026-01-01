@@ -1,20 +1,40 @@
+const id = new URLSearchParams(location.search).get("id");
 const forms = JSON.parse(localStorage.getItem("forms"));
-const form = forms[localStorage.getItem("activeForm")];
+const f = forms[id];
+const form = document.getElementById("form");
 
-document.getElementById("title").textContent = form.title;
-document.getElementById("desc").textContent = form.desc;
+const values = {};
+const nodes = [];
 
-const formEl = document.getElementById("form");
+f.questions.forEach((q,i)=>{
+  const d = document.createElement("div");
+  d.dataset.index = i;
 
-form.fields.forEach(f => {
-  const div = document.createElement("div");
-  div.innerHTML = `
-    <label>${f.label}</label>
-    <input />
+  d.innerHTML = `
+    <label>${q.label}${q.required?" *":""}</label>
+    <input ${q.required?"required":""}
+      oninput="values[${i}]=this.value; applyLogic()">
   `;
-  formEl.appendChild(div);
+
+  nodes.push(d);
+  form.appendChild(d);
 });
 
-function submitForm() {
-  alert("Response submitted (demo)");
+function applyLogic(){
+  f.questions.forEach((q,i)=>{
+    const node = nodes[i];
+    if(!q.showIf){
+      node.style.display="block";
+    } else {
+      node.style.display = values[q.showIf] ? "block" : "none";
+    }
+  });
 }
+
+function submit(){
+  f.responses.push(values);
+  localStorage.setItem("forms", JSON.stringify(forms));
+  alert("Submitted");
+}
+
+applyLogic();
