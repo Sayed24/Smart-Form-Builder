@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Form</title>
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<header>
-  <h1>SmartForm</h1>
-</header>
-
-<main>
-  <form id="form"></form>
-  <button onclick="submitForm()">Submit</button>
+<main class="container narrow">
+  <div class="form-card">
+    <h1 id="title"></h1>
+    <p id="desc"></p>
+    <form id="form"></form>
+    <button class="primary" onclick="submitForm()">Submit</button>
+  </div>
 </main>
 
 <script src="js/form.js"></script>
