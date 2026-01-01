@@ -1,9 +1,12 @@
-const formEl = document.getElementById("form");
 const forms = JSON.parse(localStorage.getItem("forms"));
-const index = localStorage.getItem("activeForm");
-const fields = forms[index].fields;
+const form = forms[localStorage.getItem("activeForm")];
 
-fields.forEach(f => {
+document.getElementById("title").textContent = form.title;
+document.getElementById("desc").textContent = form.desc;
+
+const formEl = document.getElementById("form");
+
+form.fields.forEach(f => {
   const div = document.createElement("div");
   div.innerHTML = `
     <label>${f.label}</label>
@@ -13,5 +16,5 @@ fields.forEach(f => {
 });
 
 function submitForm() {
-  alert("Form submitted (demo)");
+  alert("Response submitted (demo)");
 }
