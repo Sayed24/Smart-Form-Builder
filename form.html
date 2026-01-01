@@ -1,62 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Form • SmartForm</title>
-
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- ================= HEADER ================= -->
-<header class="app-header">
-  <a href="index.html" class="logo">SmartForm</a>
-
-  <button class="menu-toggle" id="menuToggle">☰</button>
-
-  <nav class="header-nav" id="headerNav">
-    <a href="index.html">Home</a>
-    <a href="builder.html">Build</a>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
-  </nav>
+<header>
+  <a href="index.html">SmartForm</a>
 </header>
 
-<!-- ================= FORM PAGE ================= -->
-<main class="form-page">
-  <h2 id="formTitle">Public Form</h2>
-  <p class="muted" id="formHint"></p>
-
-  <form id="publicForm"></form>
-
-  <button id="submitBtn" style="margin-top:1rem;">Submit</button>
-
-  <p class="local-note">
-    Demo mode — responses are stored locally.
-  </p>
+<main>
+  <form id="form" class="card"></form>
+  <button onclick="submitForm()">Submit</button>
 </main>
 
-<!-- ================= MOBILE NAV ================= -->
-<script>
-  document.getElementById("menuToggle").onclick = () => {
-    document.getElementById("headerNav").classList.toggle("open");
-  };
-</script>
-
-<!-- ================= SHAREABLE LINK LOGIC ================= -->
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const formId = params.get("formId") || "default";
-
-  if (params.get("formId")) {
-    document.getElementById("formHint").textContent =
-      "Opened via shareable link (simulated).";
-  }
-</script>
-
-<!-- ================= SCRIPTS ================= -->
-<script src="js/roles.js"></script>
+<script src="js/app.js"></script>
 <script src="js/form.js"></script>
-
 </body>
 </html>
