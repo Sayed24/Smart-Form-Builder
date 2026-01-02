@@ -168,3 +168,36 @@ button {
   cursor: grab;
   opacity: .5;
 }
+/* ===== Animations ===== */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-card,
+.field,
+.analytics-card,
+.public-field {
+  animation: fadeUp 0.35s ease both;
+}
+
+/* Button micro interaction */
+button {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+button:active {
+  transform: scale(0.97);
+}
