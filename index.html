@@ -1,32 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>SmartForm • Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="css/style.css" />
+  <title>SmartForm Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/app.js"></script>
 </head>
 <body onload="initPage()">
 
 <header class="topbar">
-  <h1 onclick="location.href='index.html'">SmartForm</h1>
-
+  <a class="logo" href="index.html">SmartForm</a>
   <div>
     <button onclick="toggleDark()">🌙</button>
     <button onclick="logout()">Logout</button>
   </div>
 </header>
 
-<main class="container">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-    <h2>Your Forms</h2>
-    <button class="primary" onclick="createForm()">➕ New Form</button>
-  </div>
-
-  <div id="formsList"></div>
+<main class="dashboard">
+  <button class="btn-primary" onclick="createForm()">+ New Form</button>
+  <div id="forms"></div>
 </main>
 
-<script src="js/auth.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>
