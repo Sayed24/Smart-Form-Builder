@@ -154,3 +154,17 @@ button {
     width: 100%;
   }
 }
+.field:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+}
+
+.field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drag {
+  cursor: grab;
+  opacity: .5;
+}
