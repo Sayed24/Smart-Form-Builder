@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Form</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form • Smart Form Builder</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Scripts -->
+  <script defer src="js/app.js"></script>
+  <script defer src="js/form.js"></script>
 </head>
+
 <body>
 
-<form id="form" class="card"></form>
-<button class="primary" onclick="submit()">Submit</button>
+  <!-- ===== HEADER ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <a href="index.html" class="logo">SmartForm</a>
+    </div>
+  </header>
 
-<script src="js/form.js"></script>
+  <!-- ===== FORM WRAPPER ===== -->
+  <main class="form-wrapper">
+
+    <div class="form-card-public">
+      <h1 id="formTitle">Loading…</h1>
+      <p class="form-desc">Please fill out the form below</p>
+
+      <form id="publicForm"></form>
+
+      <button id="submitBtn" class="btn-primary full">
+        Submit
+      </button>
+    </div>
+
+  </main>
+
 </body>
 </html>
