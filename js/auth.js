@@ -1,72 +1,48 @@
 /* ===============================
-   AUTH SIMULATION (NO BACKEND)
-   Admin / Viewer roles
+   AUTH SIMULATION (STABLE)
 ================================ */
 
-const AUTH_KEY = "smartform_user_role";
+const ROLE_KEY = "smartform_role";
 
-/* --------- INIT CHECK --------- */
+/* ---------- INIT ---------- */
 function initPage() {
-  const role = localStorage.getItem(AUTH_KEY);
+  const role = localStorage.getItem(ROLE_KEY);
+  const isLogin = location.pathname.includes("login.html");
 
-  // If not logged in, redirect to login
-  if (!role && !location.pathname.includes("login.html")) {
+  // Allow login page without redirect
+  if (isLogin) return;
+
+  // Redirect if not logged in
+  if (!role) {
     location.href = "login.html";
     return;
   }
 
-  // Protect admin-only pages
-  if (
-    role === "viewer" &&
-    (location.pathname.includes("builder.html") ||
-     location.pathname.includes("analytics.html"))
-  ) {
-    alert("Access denied. Admins only.");
-    location.href = "index.html";
-  }
-
   applyDarkMode();
-  showRoleBadge(role);
 }
 
-/* --------- LOGIN --------- */
-function loginAs(role) {
-  localStorage.setItem(AUTH_KEY, role);
+/* ---------- LOGIN ---------- */
+function login(role) {
+  localStorage.setItem(ROLE_KEY, role);
   location.href = "index.html";
 }
 
-/* --------- LOGOUT --------- */
+/* ---------- LOGOUT ---------- */
 function logout() {
-  localStorage.removeItem(AUTH_KEY);
+  localStorage.removeItem(ROLE_KEY);
   location.href = "login.html";
 }
 
-/* --------- ROLE BADGE --------- */
-function showRoleBadge(role) {
-  const header = document.querySelector(".topbar");
-  if (!header || !role) return;
-
-  let badge = document.getElementById("roleBadge");
-  if (!badge) {
-    badge = document.createElement("span");
-    badge.id = "roleBadge";
-    badge.style.marginLeft = "1rem";
-    badge.style.fontSize = "0.9rem";
-    badge.style.opacity = "0.8";
-    header.appendChild(badge);
-  }
-
-  badge.textContent = role === "admin" ? "Admin Mode" : "Viewer Mode";
-}
-
-/* --------- DARK MODE --------- */
+/* ---------- DARK MODE ---------- */
 function toggleDark() {
-  const current = localStorage.getItem("smartform_dark") === "true";
-  localStorage.setItem("smartform_dark", !current);
+  const dark = localStorage.getItem("dark") === "true";
+  localStorage.setItem("dark", !dark);
   applyDarkMode();
 }
 
 function applyDarkMode() {
-  const dark = localStorage.getItem("smartform_dark") === "true";
-  document.body.classList.toggle("dark", dark);
+  document.body.classList.toggle(
+    "dark",
+    localStorage.getItem("dark") === "true"
+  );
 }
