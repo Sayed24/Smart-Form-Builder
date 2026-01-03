@@ -1,48 +1,19 @@
-/* ===============================
-   AUTH SIMULATION (STABLE)
-================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  const adminBtn = document.getElementById("adminBtn");
+  const viewerBtn = document.getElementById("viewerBtn");
 
-const ROLE_KEY = "smartform_role";
-
-/* ---------- INIT ---------- */
-function initPage() {
-  const role = localStorage.getItem(ROLE_KEY);
-  const isLogin = location.pathname.includes("login.html");
-
-  // Allow login page without redirect
-  if (isLogin) return;
-
-  // Redirect if not logged in
-  if (!role) {
-    location.href = "login.html";
+  if (!adminBtn || !viewerBtn) {
+    console.error("Auth buttons not found");
     return;
   }
 
-  applyDarkMode();
-}
+  adminBtn.onclick = () => {
+    localStorage.setItem("role", "admin");
+    location.href = "builder.html";
+  };
 
-/* ---------- LOGIN ---------- */
-function login(role) {
-  localStorage.setItem(ROLE_KEY, role);
-  location.href = "index.html";
-}
-
-/* ---------- LOGOUT ---------- */
-function logout() {
-  localStorage.removeItem(ROLE_KEY);
-  location.href = "login.html";
-}
-
-/* ---------- DARK MODE ---------- */
-function toggleDark() {
-  const dark = localStorage.getItem("dark") === "true";
-  localStorage.setItem("dark", !dark);
-  applyDarkMode();
-}
-
-function applyDarkMode() {
-  document.body.classList.toggle(
-    "dark",
-    localStorage.getItem("dark") === "true"
-  );
-}
+  viewerBtn.onclick = () => {
+    localStorage.setItem("role", "viewer");
+    location.href = "form.html";
+  };
+});
