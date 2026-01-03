@@ -1,18 +1,9 @@
 :root {
-  --bg: #f5f6fa;
+  --primary: #1a73e8;
+  --bg: #f5f7fb;
   --card: #ffffff;
-  --text: #111;
-  --muted: #666;
-  --primary: #673ab7;
-  --border: #ddd;
-}
-
-body.dark {
-  --bg: #121212;
-  --card: #1e1e1e;
-  --text: #fff;
-  --muted: #aaa;
-  --border: #333;
+  --text: #1f2937;
+  --radius: 10px;
 }
 
 * {
@@ -26,200 +17,65 @@ body {
   color: var(--text);
 }
 
-/* ===== HEADER ===== */
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px;
+header {
   background: var(--card);
-  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.logo {
-  text-decoration: none;
-  color: var(--primary);
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-button {
+header h1 {
+  font-size: 18px;
+  margin: 0;
   cursor: pointer;
 }
 
-.btn-primary {
+main {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
   background: var(--primary);
   color: #fff;
-  border: none;
-  padding: 10px 14px;
+}
+
+button.secondary {
+  background: #e5e7eb;
+  color: #111;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
   border-radius: 6px;
+  border: 1px solid #d1d5db;
 }
 
-.btn-outline {
-  background: transparent;
-  border: 1px solid var(--border);
-  padding: 8px 12px;
+.form-question {
+  padding: 14px;
+  border: 1px dashed #c7d2fe;
   border-radius: 6px;
+  margin-bottom: 10px;
+  background: #f8faff;
 }
 
-.full {
-  width: 100%;
+@media (max-width: 600px) {
+  header h1 { font-size: 16px; }
+  main { padding: 12px; }
 }
-
-/* ===== DASHBOARD ===== */
-.dashboard {
-  padding: 20px;
-}
-
-.form-card {
-  background: var(--card);
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  border: 1px solid var(--border);
-}
-
-.form-card h3 {
-  margin: 0 0 6px;
-}
-
-/* ===== BUILDER ===== */
-.builder-layout {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-}
-
-.builder-sidebar {
-  width: 220px;
-}
-
-.builder-sidebar button {
-  width: 100%;
-  margin-bottom: 8px;
-}
-
-.builder-canvas {
-  flex: 1;
-}
-
-.field {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-}
-
-.field input,
-.field textarea,
-.field select {
-  width: 100%;
-  padding: 8px;
-  margin-top: 6px;
-}
-
-/* ===== FORM ===== */
-.form-wrapper {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-}
-
-.public-field {
-  margin-bottom: 16px;
-}
-
-/* ===== ANALYTICS ===== */
-.analytics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.analytics-card {
-  background: var(--card);
-  padding: 16px;
-  border-radius: 8px;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-  .builder-layout {
-    flex-direction: column;
-  }
-
-  .builder-sidebar {
-    width: 100%;
-  }
-}
-.field:hover {
-  box-shadow: 0 4px 14px rgba(0,0,0,.08);
-}
-
-.field-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.drag {
-  cursor: grab;
-  opacity: .5;
-}
-/* ===== Animations ===== */
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.form-card,
-.field,
-.analytics-card,
-.public-field {
-  animation: fadeUp 0.35s ease both;
-}
-
-/* Button micro interaction */
-button {
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,.15);
-}
-
-button:active {
-  transform: scale(0.97);
-}
-
-.drag {
-  cursor: grab;
-}
-
-.drag:active {
-  cursor: grabbing;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(103,58,183,.15);
-}
-
-
-
-
-
-
