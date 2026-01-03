@@ -140,3 +140,34 @@ function highlightActiveForm() {
     }
   });
 }
+const templates = {
+  job: {
+    title: "Job Application",
+    fields: [
+      { id: "name", label: "Full Name", type: "text", required: true },
+      { id: "email", label: "Email", type: "email", required: true },
+      { id: "phone", label: "Phone Number", type: "text", required: true },
+      { id: "resume", label: "Why should we hire you?", type: "textarea", required: true }
+    ],
+    responses: []
+  },
+
+  feedback: {
+    title: "Customer Feedback",
+    fields: [
+      { id: "rating", label: "How satisfied are you?", type: "text", required: true },
+      { id: "improve", label: "What can we improve?", type: "textarea", required: false }
+    ],
+    responses: []
+  },
+
+  event: {
+    title: "Event Registration",
+    fields: [
+      { id: "name", label: "Name", type: "text", required: true },
+      { id: "email", label: "Email", type: "email", required: true },
+      { id: "attend", label: "Will you attend?", type: "text", required: true }
+    ],
+    responses: []
+  }
+};
