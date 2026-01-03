@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Analytics</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="js/auth.js"></script>
-  <script defer src="js/app.js"></script>
-  <script defer src="js/analytics.js"></script>
 </head>
-<body onload="initPage()">
+<body>
 
-<header class="topbar">
-  <a class="logo" href="index.html">SmartForm</a>
+<script src="auth.js"></script>
+<script>requireRole("admin");</script>
+
+<header>
+  <h1 onclick="location.href='index.html'">SmartForm</h1>
 </header>
 
-<main class="analytics-grid" id="charts"></main>
+<main>
+  <div class="card">
+    <h2>Responses</h2>
+    <ul id="list"></ul>
+  </div>
+</main>
 
+<script src="analytics.js"></script>
 </body>
 </html>
