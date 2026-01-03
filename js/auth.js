@@ -1,19 +1,16 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const adminBtn = document.getElementById("adminBtn");
-  const viewerBtn = document.getElementById("viewerBtn");
+function login(role) {
+  localStorage.setItem("role", role);
 
-  if (!adminBtn || !viewerBtn) {
-    console.error("Auth buttons not found");
-    return;
-  }
-
-  adminBtn.onclick = () => {
-    localStorage.setItem("role", "admin");
+  if (role === "admin") {
     location.href = "builder.html";
-  };
-
-  viewerBtn.onclick = () => {
-    localStorage.setItem("role", "viewer");
+  } else {
     location.href = "form.html";
-  };
-});
+  }
+}
+
+function requireRole(required) {
+  const role = localStorage.getItem("role");
+  if (!role || (required && role !== required)) {
+    location.href = "index.html";
+  }
+}
