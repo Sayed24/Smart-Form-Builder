@@ -29,25 +29,27 @@ function setActiveForm(id) {
 }
 
 /* ---------- CREATE FORM ---------- */
-function createNewForm() {
-  const forms = getForms();
+function createForm(template = null) {
+  const forms = JSON.parse(localStorage.getItem("forms") || "[]");
 
-  const id = "form_" + Date.now();
-  const newForm = {
-    id,
+  const baseForm = {
+    id: "form_" + Date.now(),
     title: "Untitled Form",
     fields: [],
-    responses: [],
-    createdAt: new Date().toISOString()
+    responses: []
   };
 
-  forms.push(newForm);
-  saveForms(forms);
-  setActiveForm(id);
+  if (template) {
+    Object.assign(baseForm, template);
+    baseForm.id = "form_" + Date.now();
+  }
+
+  forms.push(baseForm);
+  localStorage.setItem("forms", JSON.stringify(forms));
+  localStorage.setItem("activeForm", baseForm.id);
 
   location.href = "builder.html";
 }
-
 /* ---------- LOAD FORM LIST ---------- */
 function loadFormsList() {
   const list = document.getElementById("formsList");
