@@ -1,16 +1,1 @@
-function login(role) {
-  localStorage.setItem("role", role);
-
-  if (role === "admin") {
-    location.href = "builder.html";
-  } else {
-    location.href = "form.html";
-  }
-}
-
-function requireRole(required) {
-  const role = localStorage.getItem("role");
-  if (!role || (required && role !== required)) {
-    location.href = "index.html";
-  }
-}
+(()=>{"use strict";function login(role){SmartForm.setAuth(role==="viewer"?"viewer":"admin");location.href="./index.html"}function logout(){SmartForm.clearAuth();location.href="./login.html"}function requireAuth({admin=false,publicPage=false}={}){if(publicPage)return SmartForm.getAuth();const a=SmartForm.getAuth();if(!a?.role){location.replace("./login.html");return null}if(admin&&a.role!=="admin"){SmartForm.toast("Admin access is required.","error");setTimeout(()=>location.replace("./index.html"),250);return null}return a}function updateUI(){const a=SmartForm.getAuth();document.querySelectorAll("[data-role-label]").forEach(n=>n.textContent=a?.role==="admin"?"Admin":a?.role==="viewer"?"Viewer":"Guest");document.querySelectorAll("[data-admin-only]").forEach(n=>n.hidden=a?.role!=="admin");document.querySelectorAll("[data-viewer-only]").forEach(n=>n.hidden=a?.role!=="viewer")}window.Auth={login,logout,requireAuth,updateUI};document.addEventListener("DOMContentLoaded",updateUI)})();
